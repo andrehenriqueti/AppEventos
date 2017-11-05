@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
-                android:background="#42ebf4"
+                android:background="@drawable/botao_customizado"
                 android:text="@string/registrar_conta"/>
 
             <!-- Botão que redireciona para a tela de login -->

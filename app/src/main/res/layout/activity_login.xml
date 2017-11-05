@@ -44,11 +44,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
                 android:textSize="15sp"
-                android:background="#42ebf4"
+                android:background="@drawable/botao_customizado"
                 android:text="@string/login"/>
 
             <!-- Botão que redireciona para a tela de cadastro -->
-
             <Button
                 android:id="@+id/btn_link_cadastrar"
                 android:layout_width="match_parent"
