@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.eventos.activity.CadastroUsuarioActivity"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/nome_usuario_cadastro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_nome_usuario_cadastro"
+                android:padding="10dp"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/email_usuario_cadastro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_email_usuario_cadastro"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data_nascimento"
+                />
+
+            <Button
+                android:id="@+id/data_nascimento_usuario_cadastro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="numberDecimal"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sexo"/>
+
+            <Spinner
+                android:id="@+id/spinner_sexo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telefone"
+                />
+
+            <com.vicmikhailau.maskededittext.MaskedEditText
+                android:id="@+id/telefone_usuario_cadastro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                app:mask="(##)#####-####"
+                android:hint="@string/hint_telefone_cadastro"/>
+
+            <!-- Botão de Cadastro -->
+
+            <Button
+                android:id="@+id/btn_cadatrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="#42ebf4"
+                android:text="@string/registrar_conta"/>
+
+            <!-- Botão que redireciona para a tela de login -->
+
+            <Button
+                android:id="@+id/btn_link_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dip"
+                android:background="@null"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:text="@string/link_login"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

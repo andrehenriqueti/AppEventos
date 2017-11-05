@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Eventos</string>
+    <string name="data_nascimento">Data de Nascimento</string>
+    <string name="hint_nome_usuario_cadastro">Nome Completo</string>
+    <string name="hint_email_usuario_cadastro">E-mail válido</string>
+    <string name="hint_data_nascimento_cadastro">dd/mm/AAAA</string>
+    <string name="sexo">SEXO</string>
+    <string name="hint_telefone_cadastro">(DD)XXXXX-XXXX</string>
+    <string name="telefone">Telefone</string>
+    <string name="registrar_conta">Registrar Conta</string>
+    <string name="link_login">Já é cadastrado? Então faça login.</string>
+    <string-array name="array_sexo_spinner">
+        <item> </item>
+        <item>Masculino</item>
+        <item>Feminino</item>
+        <item>Outro</item>
+        <item>Prefiro não declarar</item>
+    </string-array>
+    <string name="hint_senha_login">Senha</string>
+    <string name="hint_email_login">E-mail</string>
+    <string name="login">Login</string>
+    <string name="link_cadastrar">Clique aqui para se cadastrar</string>
+    <string name="link_recuperar">Recuperar conta ou senha</string>
+</resources>

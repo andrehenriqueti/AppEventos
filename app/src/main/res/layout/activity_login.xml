@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/email_usuario_login"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/hint_email_login"
+                    android:inputType="textEmailAddress"
+                    android:padding="10dp"/>
+
+                <EditText
+                    android:id="@+id/senha_usuario_login"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/hint_senha_login"
+                    android:inputType="textPassword"
+                    android:padding="10dp"/>
+
+            <!-- Botão de login -->
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:textSize="15sp"
+                android:background="#42ebf4"
+                android:text="@string/login"/>
+
+            <!-- Botão que redireciona para a tela de cadastro -->
+
+            <Button
+                android:id="@+id/btn_link_cadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:textSize="15sp"
+                android:background="@null"
+                android:textAllCaps="false"
+                android:text="@string/link_cadastrar"/>
+
+            <!-- Botão que redireciona para a tela de recuperar -->
+
+            <Button
+                android:id="@+id/btn_link_recuperar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="@null"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:text="@string/link_recuperar"/>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
