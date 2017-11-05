@@ -59,6 +59,7 @@ public class LoginActivity extends Activity {
         });
 
     }
+
     public void validaLogin(final UsuarioBean usuarioBean){
         Log.i("object:",usuarioBean.toString());
         //String utilizada para cancelar a requisição
