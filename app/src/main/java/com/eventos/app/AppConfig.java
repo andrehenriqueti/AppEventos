@@ -5,6 +5,6 @@ package com.eventos.app;
  */
 
 public class AppConfig {
-    public static String URL_CADASTRAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/cadastro_usuario.php";
-    public static String URL_LOGIN = "https://andrehenriquetatu.000webhostapp.com/GEO/login.php";
+    public static String URL_CADASTRAR_USUARIO = "http://192.168.1.35/GEO/cadastro_usuario.php";
+    public static String URL_LOGIN = "http://192.168.1.35/GEO/login.php";
 }
