@@ -34,7 +34,6 @@ public class AlteraSenhaFragment extends android.app.Fragment {
     private String senhaAtual, senhaNova, senhaConfirm, emailLogado;
     private Button btn_alterar;
     private SessionManager session;
-    private Context context;
     private UsuarioBean usuarioBean;
 
 
@@ -52,17 +51,17 @@ public class AlteraSenhaFragment extends android.app.Fragment {
         btn_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session = new SessionManager(context);
+                session = new SessionManager(getActivity().getBaseContext());
                 emailLogado = session.getEmailLogado();
                 senhaAtual = ((EditText) view.findViewById(R.id.campo_senhaAtual)).getText().toString().trim();
                 senhaNova = ((EditText) view.findViewById(R.id.campo_senhaNova)).getText().toString().trim();
                 senhaConfirm = ((EditText) view.findViewById(R.id.campo_senhaConfirmar)).getText().toString().trim();
 
                 if(senhaAtual.isEmpty() || senhaNova.isEmpty() || senhaConfirm.isEmpty()){
-                    Toast.makeText(context, "Campos vazios", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getBaseContext(), "Campos vazios", Toast.LENGTH_LONG).show();
                 }
                 else if (!senhaNova.equals(senhaConfirm)){
-                    Toast.makeText(context, "Campos de senha e confirmação não correspondem", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getBaseContext(), "Campos de senha e confirmação não correspondem", Toast.LENGTH_LONG).show();
                 }
 
                 else{
@@ -74,11 +73,6 @@ public class AlteraSenhaFragment extends android.app.Fragment {
         });
 
         return view;
-    }
-    @Override
-    public void onAttach(Context context) {
-        this.context = context;
-        super.onAttach(context);
     }
 
     public void alterarSenha(final UsuarioBean usuarioBean, final String senhaNova){
@@ -94,16 +88,16 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                     boolean error = jsonObject.getBoolean("error");
                     String mensagem = jsonObject.getString("error_msg");
 
-                    Toast.makeText(context, mensagem, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
-                    Toast.makeText(context,"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
-                Toast.makeText(context,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
             @Override

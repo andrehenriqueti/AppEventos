@@ -24,6 +24,7 @@ public class Menu extends AppCompatActivity
     private NavigationView navigationView;
     private TextView nome;
     private TextView email;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,9 @@ public class Menu extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        session = new SessionManager(getBaseContext());
+        session.setEmailLogado("");
+        session.setSenhaLogada("");
         if(isNavigationDrawerOpen()){
             closeNavigationDrawer();
         }
@@ -114,6 +118,7 @@ public class Menu extends AppCompatActivity
             case R.id.nav_sair:
                 SessionManager sessionManager = new SessionManager(getBaseContext());
                 sessionManager.setEmailLogado("");
+                sessionManager.setSenhaLogada("");
                 finish();
             default:
                break;

@@ -43,7 +43,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        session = new SessionManager(getBaseContext());
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
@@ -96,10 +96,12 @@ public class LoginActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                       session = new SessionManager(getBaseContext());
-                       session.setEmailLogado(usuarioBean.getEmail());
-                       startActivity(new Intent(LoginActivity.this,Menu.class));
+                        session.setEmailLogado(usuarioBean.getEmail());
+                        session.setSenhaLogada(usuarioBean.getSenha());
+                        startActivity(new Intent(LoginActivity.this,Menu.class));
                     } else {
+                        session.setEmailLogado("");
+                        session.setSenhaLogada("");
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }
@@ -120,8 +122,14 @@ public class LoginActivity extends Activity {
                 //Pasando os parametros pelo metodo POST
                 Map<String, String> parametros =  new HashMap<>();
                 Log.i("usuarioBean",usuarioBean.toString());
-                parametros.put("email",usuarioBean.getEmail());
-                parametros.put("senha",usuarioBean.getSenha());
+                if(session.getSenhaLogada().isEmpty() && session.getEmailLogado().isEmpty()){
+                    parametros.put("email",usuarioBean.getEmail());
+                    parametros.put("senha",usuarioBean.getSenha());
+                }
+                else{
+                    parametros.put("email",session.getEmailLogado());
+                    parametros.put("senha",session.getSenhaLogada());
+                }
                 return parametros;
             }
         };

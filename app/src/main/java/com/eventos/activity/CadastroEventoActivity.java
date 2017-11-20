@@ -32,12 +32,13 @@ public class CadastroEventoActivity extends AppCompatActivity {
     private DatePickerDataFinal datePickerDataFinal;
     private TimePickerHoraInicial timePickerHoraInicial;
     private TimePickerHoraFim timePickerHoraFinal;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
-        SessionManager sessionManager = new SessionManager(getBaseContext());
+        sessionManager = new SessionManager(getBaseContext());
         btnDataInicio = (Button) findViewById(R.id.btn_data_inicio_evento_cadastro);
         btnDataFim = (Button) findViewById(R.id.btn_data_fim_evento_cadastro);
 
@@ -99,5 +100,14 @@ public class CadastroEventoActivity extends AppCompatActivity {
         else{
             btnHorarioFinal.setText(sessionManager.getHorarioFim());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        sessionManager.setDataFim("");
+        sessionManager.setDataInicio("");
+        sessionManager.setHorarioInicio("");
+        sessionManager.setHorarioFim("");
+        super.onBackPressed();
     }
 }
