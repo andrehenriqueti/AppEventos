@@ -51,7 +51,7 @@ public class AlteraSenhaFragment extends android.app.Fragment {
         btn_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session = new SessionManager(getActivity().getBaseContext());
+                session = new SessionManager(getActivity().getApplicationContext());
                 emailLogado = session.getEmailLogado();
                 senhaAtual = ((EditText) view.findViewById(R.id.campo_senhaAtual)).getText().toString().trim();
                 senhaNova = ((EditText) view.findViewById(R.id.campo_senhaNova)).getText().toString().trim();

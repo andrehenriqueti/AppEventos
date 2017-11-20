@@ -80,6 +80,7 @@ public class Menu extends AppCompatActivity
         session = new SessionManager(getBaseContext());
         session.setEmailLogado("");
         session.setSenhaLogada("");
+        session.setLogin(false);
         if(isNavigationDrawerOpen()){
             closeNavigationDrawer();
         }

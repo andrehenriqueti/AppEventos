@@ -46,7 +46,9 @@ public class LoginActivity extends Activity {
         session = new SessionManager(getBaseContext());
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-
+        if(session.isLoggedIn()){
+            validaLogin(null);
+        }
         buttonLinkCadastro = (Button) findViewById(R.id.btn_link_cadastrar);
         buttonLogin = (Button) findViewById(R.id.btn_login);
         buttonLinkRecuperar = (Button) findViewById(R.id.btn_link_recuperar);
@@ -80,7 +82,7 @@ public class LoginActivity extends Activity {
     }
 
     public void validaLogin(final UsuarioBean usuarioBean){
-        Log.i("object:",usuarioBean.toString());
+        //Log.i("object:",usuarioBean.toString());
         //String utilizada para cancelar a requisição
         String tag_req = "req_registro";
         progressDialog.setMessage("Carregando...");
@@ -96,8 +98,11 @@ public class LoginActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                        session.setEmailLogado(usuarioBean.getEmail());
-                        session.setSenhaLogada(usuarioBean.getSenha());
+                        if(session.getSenhaLogada().isEmpty() && session.getEmailLogado().isEmpty()){
+                            session.setEmailLogado(usuarioBean.getEmail());
+                            session.setSenhaLogada(usuarioBean.getSenha());
+                        }
+                        session.setLogin(true);
                         startActivity(new Intent(LoginActivity.this,Menu.class));
                     } else {
                         session.setEmailLogado("");
@@ -121,7 +126,7 @@ public class LoginActivity extends Activity {
             protected Map<String, String> getParams() {
                 //Pasando os parametros pelo metodo POST
                 Map<String, String> parametros =  new HashMap<>();
-                Log.i("usuarioBean",usuarioBean.toString());
+                //Log.i("usuarioBean",usuarioBean.toString());
                 if(session.getSenhaLogada().isEmpty() && session.getEmailLogado().isEmpty()){
                     parametros.put("email",usuarioBean.getEmail());
                     parametros.put("senha",usuarioBean.getSenha());
