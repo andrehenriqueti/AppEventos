@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eventos.R;
+import com.eventos.fragment.AlteraSenhaFragment;
 import com.eventos.fragment.ListaEventosFragment;
+import com.eventos.helper.SessionManager;
 
 public class Menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -106,6 +108,13 @@ public class Menu extends AppCompatActivity
             case R.id.nav_listareventos:
                 fragment = new ListaEventosFragment();
                 break;
+            case R.id.nav_alterarsenha:
+                fragment = new AlteraSenhaFragment();
+                break;
+            case R.id.nav_sair:
+                SessionManager sessionManager = new SessionManager(getBaseContext());
+                sessionManager.setEmailLogado("");
+                finish();
             default:
                break;
         }

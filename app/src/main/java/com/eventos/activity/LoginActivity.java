@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
     private String stringLogin;
     private String stringPassword;
     private ProgressDialog progressDialog;
+    private SessionManager session;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -95,6 +96,8 @@ public class LoginActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
+                       session = new SessionManager(getBaseContext());
+                       session.setEmailLogado(usuarioBean.getEmail());
                        startActivity(new Intent(LoginActivity.this,Menu.class));
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
