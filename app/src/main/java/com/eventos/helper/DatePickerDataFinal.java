@@ -10,13 +10,13 @@ import android.widget.DatePicker;
 import com.eventos.R;
 
 /**
- * Created by ANDRE on 01/11/2017.
+ * Created by ANDRE on 20/11/2017.
  */
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerDataFinal extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.data_nascimento_usuario_cadastro);
+        Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.btn_data_fim_evento_cadastro);
         String dataNascimentoUsuario = buttonDataNascimento.getText().toString();
         int posPrimDaBarra = dataNascimentoUsuario.indexOf("/");
         int posSegDaBarra = dataNascimentoUsuario.lastIndexOf("/");
@@ -50,7 +50,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.data_nascimento_usuario_cadastro);
+        Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.btn_data_fim_evento_cadastro);
         String dataNoBotao = dayOfMonth+"/"+(month+1)+"/"+year;
         buttonDataNascimento.setText(dataNoBotao);
     }

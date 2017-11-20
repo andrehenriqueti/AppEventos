@@ -21,7 +21,7 @@ import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
 import com.eventos.controller.ControllerUsuario;
-import com.eventos.helper.DatePickerFragment;
+import com.eventos.helper.DatePickerDataNascimento;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.lang.Boolean.TRUE;
 
 
 public class CadastroUsuarioActivity extends AppCompatActivity{
@@ -47,7 +45,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
     private EditText editTextTelefoneUsuario;
     private Button buttonRegistrarConta;
     private Button buttonLinkLogin;
-    private DatePickerFragment datePickerDialog;
+    private DatePickerDataNascimento datePickerDialog;
     private ProgressDialog progressDialog;
 
     @Override
@@ -79,7 +77,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
         buttonDataNascimento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog = new DatePickerFragment();
+                datePickerDialog = new DatePickerDataNascimento();
                 datePickerDialog.show(getFragmentManager(),"Data de Nascimento");
             }
         });
