@@ -6,14 +6,14 @@ package com.eventos.app;
 
 public class AppConfig {
 
-    public static String URL_LOGIN = "http://192.168.1.35/GEO/login.php";
+    public static String URL_LOGIN = "https://andrehenriquetatu.000webhostapp.com/GEO/login.php";
 
     //------------------- USUÁRIO -------------------------
     // registrar usuário url
-    public static String URL_CADASTRAR_USUARIO = "http://192.168.1.35/GEO/cadastro_usuario.php";
+    public static String URL_CADASTRAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/cadastro_usuario.php";
 
     // envio do e-mail
-    public static String URL_EMAIL = "http://192.168.1.35//GEO/enviaEmail.php";
+    public static String URL_EMAIL = "https://andrehenriquetatu.000webhostapp.com/GEO/enviaEmail.php";
 
     // alterar usuário url
     public static String URL_ALTERAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/alterar_usuario.php";
@@ -22,7 +22,7 @@ public class AppConfig {
     public static String URL_DESATIVAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/desativar_conta.php";
 
     // recuperar usuário url
-    public static String URL_RECUPERAR_USUARIO = "http://192.168.1.35/GEO/recuperar_conta.php";
+    public static String URL_RECUPERAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/recuperar_conta.php";
 
     // alterar senha usuário url
     public static String URL_ALTERAR_SENHA = "https://andrehenriquetatu.000webhostapp.com/GEO/alterar_senha.php";

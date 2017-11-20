@@ -22,6 +22,7 @@ import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
 import com.eventos.controller.ControllerUsuario;
 import com.eventos.helper.DatePickerDataNascimento;
+import com.eventos.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,11 +48,13 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
     private Button buttonLinkLogin;
     private DatePickerDataNascimento datePickerDialog;
     private ProgressDialog progressDialog;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
+        sessionManager = new SessionManager(getBaseContext());
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         spinnerSexo = (Spinner) findViewById(R.id.spinner_sexo);
@@ -73,7 +76,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             }
         });
-        buttonDataNascimento.setText(hoje.get(Calendar.DAY_OF_MONTH)+"/"+(hoje.get(Calendar.MONTH)+1)+"/"+hoje.get(Calendar.YEAR));
+        if(sessionManager.getDataNascimento().isEmpty()){
+            buttonDataNascimento.setText(hoje.get(Calendar.DAY_OF_MONTH)+"/"+(hoje.get(Calendar.MONTH)+1)+"/"+hoje.get(Calendar.YEAR));
+        }
+        else{
+            buttonDataNascimento.setText(sessionManager.getDataNascimento());
+        }
         buttonDataNascimento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +152,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        sessionManager.setDataNascimento("");
+        super.onBackPressed();
     }
 
     public boolean validaNome(String nome){
@@ -285,6 +299,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     if (!error) {
                         String mensagemSucesso = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemSucesso, Toast.LENGTH_LONG).show();
+                        sessionManager.setDataNascimento("");
                         startActivity(new Intent(CadastroUsuarioActivity.this,LoginActivity.class));
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");

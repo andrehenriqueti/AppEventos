@@ -13,6 +13,9 @@ import android.widget.Button;
 import com.eventos.R;
 import com.eventos.helper.DatePickerDataFinal;
 import com.eventos.helper.DatePickerDataInicial;
+import com.eventos.helper.SessionManager;
+import com.eventos.helper.TimePickerHoraFim;
+import com.eventos.helper.TimePickerHoraInicial;
 
 import java.util.Calendar;
 
@@ -23,17 +26,34 @@ import java.util.Calendar;
 public class CadastroEventoActivity extends AppCompatActivity {
     private Button btnDataInicio;
     private Button btnDataFim;
+    private Button btnHorarioInicio;
+    private Button btnHorarioFinal;
     private DatePickerDataInicial datePickerDataInicial;
     private DatePickerDataFinal datePickerDataFinal;
+    private TimePickerHoraInicial timePickerHoraInicial;
+    private TimePickerHoraFim timePickerHoraFinal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
+        SessionManager sessionManager = new SessionManager(getBaseContext());
         btnDataInicio = (Button) findViewById(R.id.btn_data_inicio_evento_cadastro);
         btnDataFim = (Button) findViewById(R.id.btn_data_fim_evento_cadastro);
+
         Calendar hoje = Calendar.getInstance();
-        btnDataInicio.setText(hoje.get(Calendar.DAY_OF_MONTH)+"/"+(hoje.get(Calendar.MONTH)+1)+"/"+hoje.get(Calendar.YEAR));
-        btnDataFim.setText(hoje.get(Calendar.DAY_OF_MONTH)+"/"+(hoje.get(Calendar.MONTH)+1)+"/"+hoje.get(Calendar.YEAR));
+        if(sessionManager.getDataInicio().isEmpty()) {
+            btnDataInicio.setText(hoje.get(Calendar.DAY_OF_MONTH) + "/" + (hoje.get(Calendar.MONTH) + 1) + "/" + hoje.get(Calendar.YEAR));
+        }
+        else{
+            btnDataInicio.setText(sessionManager.getDataInicio());
+        }
+        if(sessionManager.getDataFim().isEmpty()){
+            btnDataFim.setText(hoje.get(Calendar.DAY_OF_MONTH)+"/"+(hoje.get(Calendar.MONTH)+1)+"/"+hoje.get(Calendar.YEAR));
+        }
+        else{
+            btnDataFim.setText(sessionManager.getDataFim());
+        }
         btnDataInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,5 +68,36 @@ public class CadastroEventoActivity extends AppCompatActivity {
                 datePickerDataFinal.show(getFragmentManager(),"Data Final do Evento");
             }
         });
+
+        btnHorarioInicio = (Button) findViewById(R.id.btn_horario_inicio_evento_cadastro);
+        btnHorarioInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerHoraInicial = new TimePickerHoraInicial();
+                timePickerHoraInicial.show(getFragmentManager(),"Hora de Inicio do Evento");
+            }
+        });
+
+        if(sessionManager.getHorarioInicio().isEmpty()) {
+            btnHorarioInicio.setText(hoje.get(Calendar.HOUR_OF_DAY)+":"+hoje.get(Calendar.MINUTE));
+        }
+        else{
+            btnHorarioInicio.setText(sessionManager.getHorarioInicio());
+        }
+
+        btnHorarioFinal = (Button) findViewById(R.id.btn_horario_fim_evento_cadastro);
+        btnHorarioFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerHoraFinal = new TimePickerHoraFim();
+                timePickerHoraFinal.show(getFragmentManager(),"Hora de Encerramento");
+            }
+        });
+        if(sessionManager.getHorarioFim().isEmpty()){
+            btnHorarioFinal.setText(hoje.get(Calendar.HOUR_OF_DAY)+":"+hoje.get(Calendar.MINUTE));
+        }
+        else{
+            btnHorarioFinal.setText(sessionManager.getHorarioFim());
+        }
     }
 }

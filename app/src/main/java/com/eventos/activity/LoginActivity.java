@@ -18,6 +18,7 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
+import com.eventos.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +39,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -52,6 +53,8 @@ public class LoginActivity extends Activity {
         buttonLinkCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SessionManager sessionManager = new SessionManager(getBaseContext());
+                sessionManager.setDataNascimento("");
                 startActivity(new Intent(getApplicationContext(),CadastroUsuarioActivity.class));
             }
         });

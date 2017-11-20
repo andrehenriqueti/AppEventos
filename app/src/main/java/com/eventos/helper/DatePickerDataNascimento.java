@@ -50,8 +50,10 @@ public class DatePickerDataNascimento extends DialogFragment implements DatePick
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
         Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.data_nascimento_usuario_cadastro);
         String dataNoBotao = dayOfMonth+"/"+(month+1)+"/"+year;
+        sessionManager.setDataNascimento(dataNoBotao);
         buttonDataNascimento.setText(dataNoBotao);
     }
 }

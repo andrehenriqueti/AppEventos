@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.eventos.R;
 import com.eventos.activity.CadastroEventoActivity;
 import com.eventos.activity.CadastroUsuarioActivity;
+import com.eventos.helper.SessionManager;
 
 /**
  * Created by ANDRE on 20/11/2017.
@@ -34,7 +35,10 @@ public class ListaEventosFragment extends Fragment {
         floatingActionButtonAddEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(getActivity().getBaseContext(), CadastroEventoActivity.class));
+                SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+                sessionManager.setDataFim("");
+                sessionManager.setDataInicio("");
+                startActivity(new Intent(getActivity().getBaseContext(), CadastroEventoActivity.class));
             }
         });
         return view;

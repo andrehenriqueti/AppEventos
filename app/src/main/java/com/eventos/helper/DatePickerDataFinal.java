@@ -52,6 +52,8 @@ public class DatePickerDataFinal extends DialogFragment implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.btn_data_fim_evento_cadastro);
         String dataNoBotao = dayOfMonth+"/"+(month+1)+"/"+year;
+        SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+        sessionManager.setDataFim(dataNoBotao);
         buttonDataNascimento.setText(dataNoBotao);
     }
 }

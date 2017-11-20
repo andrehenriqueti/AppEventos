@@ -52,6 +52,8 @@ public class DatePickerDataInicial extends DialogFragment implements DatePickerD
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.btn_data_inicio_evento_cadastro);
         String dataNoBotao = dayOfMonth+"/"+(month+1)+"/"+year;
+        SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+        sessionManager.setDataInicio(dataNoBotao);
         buttonDataNascimento.setText(dataNoBotao);
     }
 }
