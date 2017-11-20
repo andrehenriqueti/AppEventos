@@ -18,6 +18,7 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
+import com.eventos.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class LoginActivity extends Activity {
     private String stringLogin;
     private String stringPassword;
     private ProgressDialog progressDialog;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,8 @@ public class LoginActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
+                       session = new SessionManager(getBaseContext());
+                       session.setEmailLogado(usuarioBean.getEmail());
                        startActivity(new Intent(LoginActivity.this,Menu.class));
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");

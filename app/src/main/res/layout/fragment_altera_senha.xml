@@ -1,0 +1,63 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.eventos.fragment.AlteraSenhaFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/campo_senhaAtual"
+                android:hint="@string/hint_senha_atual"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/campo_senhaNova"
+                android:hint="@string/hint_senha_nova"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/campo_senhaConfirmar"
+                android:hint="@string/hint_senha_confirmar"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_alterarSenha"
+                android:layout_marginTop="20dip"
+                android:textSize="15sp"
+                android:background="@drawable/botao_customizado"
+                android:text="@string/hint_alterar_senha"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

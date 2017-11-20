@@ -62,7 +62,6 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
         progressDialog.setMessage("Carregando...");
         showDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,AppConfig.URL_RECUPERAR_USUARIO, new Response.Listener<String>(){
-
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);

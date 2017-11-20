@@ -42,4 +42,9 @@
     <string name="btn_cadastrar_evento">Criar Evento</string>
 
     <string name="hint_btn_recuperar">Recuperar conta/senha</string>
+
+    <string name="hint_senha_atual">Senha Atual</string>
+    <string name="hint_senha_nova">Nova Senha</string>
+    <string name="hint_senha_confirmar">Confirmar Senha</string>
+    <string name="hint_alterar_senha">Alterar Senha</string>
 </resources>

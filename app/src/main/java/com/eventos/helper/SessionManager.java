@@ -27,12 +27,22 @@ public class SessionManager {
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
+    private static final String EMAIL_LOGADO = "";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
         //pode dar erro aqui
         editor.apply();
+    }
+    public void setEmailLogado(String emailLogado) {
+        editor.putString(EMAIL_LOGADO,emailLogado);
+        editor.commit();
+    }
+
+    public String getEmailLogado() {
+       return pref.getString(EMAIL_LOGADO,"");
     }
 
     public void setLogin(boolean isLoggedIn) {
