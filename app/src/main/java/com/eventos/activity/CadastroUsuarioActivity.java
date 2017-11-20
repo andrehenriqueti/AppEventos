@@ -237,6 +237,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     if (!error) {
                         enviaSenha(usuarioBean);
                     } else {
+                        hideDialog();
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }
