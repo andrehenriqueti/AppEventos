@@ -229,7 +229,6 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
-                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
@@ -280,7 +279,6 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
-                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
