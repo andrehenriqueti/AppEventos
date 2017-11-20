@@ -40,4 +40,6 @@
     <string name="horario_final">Horário final</string>
     <string name="txt_valor">Valor</string>
     <string name="btn_cadastrar_evento">Criar Evento</string>
+
+    <string name="hint_btn_recuperar">Recuperar conta/senha</string>
 </resources>

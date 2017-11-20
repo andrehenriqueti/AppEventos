@@ -18,6 +18,10 @@ public class UsuarioBean {
 
     public UsuarioBean(){}
 
+    public UsuarioBean(String email){
+        this.email = email;
+    }
+
     public UsuarioBean(String email, String senha) {
         this.email = email;
         this.senha = senha;

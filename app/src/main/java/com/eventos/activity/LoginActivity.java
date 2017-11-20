@@ -1,6 +1,7 @@
 package com.eventos.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,18 +30,25 @@ import java.util.Map;
  */
 
 public class LoginActivity extends Activity {
-
+    private Button buttonLinkRecuperar;
     private Button buttonLinkCadastro;
     private Button buttonLogin;
     private String stringLogin;
     private String stringPassword;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+
         buttonLinkCadastro = (Button) findViewById(R.id.btn_link_cadastrar);
         buttonLogin = (Button) findViewById(R.id.btn_login);
+        buttonLinkRecuperar = (Button) findViewById(R.id.btn_link_recuperar);
+
         buttonLinkCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,18 +66,28 @@ public class LoginActivity extends Activity {
             }
         });
 
+        buttonLinkRecuperar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),RecuperarContaSenhaActivity.class));
+            }
+        });
+
     }
 
     public void validaLogin(final UsuarioBean usuarioBean){
         Log.i("object:",usuarioBean.toString());
         //String utilizada para cancelar a requisição
         String tag_req = "req_registro";
+        progressDialog.setMessage("Carregando...");
+        showDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 AppConfig.URL_LOGIN, new Response.Listener<String>(){
 
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response.toString());
+                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
@@ -87,6 +105,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
                 Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
@@ -102,5 +121,14 @@ public class LoginActivity extends Activity {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

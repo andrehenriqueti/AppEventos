@@ -3,7 +3,7 @@
     package="com.eventos">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".app.AppController"
@@ -15,24 +15,28 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.CadastroUsuarioActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.Menu"
-            android:label="@string/title_activity_menu">
-        </activity>
-        <activity android:name=".activity.CadastroEventoActivity"
-            android:label="Cadastro de Eventos"/>
-        <!--<meta-data
+            android:label="@string/title_activity_menu"></activity>
+        <activity
+            android:name=".activity.CadastroEventoActivity"
+            android:label="Cadastro de Eventos" />
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB1IZR-qnDiGAiFbGkwSOtGSswSn-NHMlo"/>-->
+            android:value="AIzaSyB1IZR-qnDiGAiFbGkwSOtGSswSn-NHMlo"/>
+        -->
+        <activity android:name=".activity.RecuperarContaSenhaActivity"></activity>
     </application>
 
 </manifest>
