@@ -98,7 +98,6 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
-
     }
 
     private void showDialog() {
