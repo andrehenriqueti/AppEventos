@@ -74,15 +74,7 @@ public class LoginActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                        String mensagemSucesso = jsonObject.getString("error_msg");
-                        String statusUsuario = jsonObject.getString("status_usuario");
-                        Toast.makeText(getBaseContext(), mensagemSucesso+" "+statusUsuario, Toast.LENGTH_LONG).show();
-                        if(statusUsuario.equals("H")){
-                            //Nova senha
-                        }
-                        else if(statusUsuario.equals("A")){
-                            //Entrar no menu
-                        }
+                       startActivity(new Intent(LoginActivity.this,Menu.class));
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();

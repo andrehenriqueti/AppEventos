@@ -5,16 +5,15 @@ package com.eventos.app;
  */
 
 public class AppConfig {
-<<<<<<< Updated upstream
-    public static String URL_CADASTRAR_USUARIO = "http://192.168.1.35/GEO/cadastro_usuario.php";
-    public static String URL_LOGIN = "http://192.168.1.35/GEO/login.php";
-=======
 
-    public static String URL_LOGIN = "https://andrehenriquetatu.000webhostapp.com/GEO/login.php";
+    public static String URL_LOGIN = "http://192.168.1.35/GEO/login.php";
 
     //------------------- USUÁRIO -------------------------
     // registrar usuário url
-    public static String URL_CADASTRAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/cadastro_usuario.php";
+    public static String URL_CADASTRAR_USUARIO = "http://192.168.1.35/GEO/cadastro_usuario.php";
+
+    // envio do e-mail
+    public static String URL_EMAIL = "http://192.168.1.35/GEO/enviaEmail.php";
 
     // alterar usuário url
     public static String URL_ALTERAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/alterar_usuario.php";
@@ -47,5 +46,4 @@ public class AppConfig {
     // exibe eventos cidade url
     public static String URL_EXIBE_EVENTOS_CIDADE = "https://andrehenriquetatu.000webhostapp.com/GEO/exibe_eventos_cidade.php";
 
->>>>>>> Stashed changes
 }

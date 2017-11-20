@@ -1,5 +1,6 @@
 package com.eventos.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.eventos.helper.DatePickerFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,11 +48,14 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
     private Button buttonRegistrarConta;
     private Button buttonLinkLogin;
     private DatePickerFragment datePickerDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         spinnerSexo = (Spinner) findViewById(R.id.spinner_sexo);
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(this,R.array.array_sexo_spinner,
@@ -128,7 +133,13 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     toastMensagemErro.show();
                 }
                 else{
-                    UsuarioBean usuarioCadastro = new UsuarioBean(nomeUsuario,emailUsuario,dataPadraoSQL(dataNascimentoUsuario),sexoUsuario,telefoneUsuario);
+                    UsuarioBean usuarioCadastro = null;
+                    try {
+                        usuarioCadastro = new UsuarioBean(nomeUsuario, new String(emailUsuario.getBytes("ISO-8859-1"),"UTF-8"), dataPadraoSQL(dataNascimentoUsuario), sexoUsuario, telefoneUsuario);
+                    }
+                    catch(UnsupportedEncodingException e){
+                        Log.e("EncodingException",e.getMessage());
+                    }
                     ControllerUsuario controllerUsuario = new ControllerUsuario(getApplicationContext());
                     registrarUsuario(usuarioCadastro);
                 }
@@ -212,6 +223,8 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
         Log.i("object:",usuarioBean.toString());
         //String utilizada para cancelar a requisição
         String tag_req = "req_registro";
+        progressDialog.setMessage("Cadastrando...");
+        showDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 AppConfig.URL_CADASTRAR_USUARIO, new Response.Listener<String>(){
 
@@ -222,9 +235,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                        String mensagemSucesso = jsonObject.getString("error_msg");
-                        Toast.makeText(getBaseContext(), mensagemSucesso, Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(CadastroUsuarioActivity.this,LoginActivity.class));
+                        enviaSenha(usuarioBean);
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
@@ -237,6 +248,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
                 Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
@@ -256,5 +268,63 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+
+    public void enviaSenha(final UsuarioBean usuarioBean){
+        Log.i("object:",usuarioBean.toString());
+        //String utilizada para cancelar a requisição
+        String tag_req = "req_registro";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                AppConfig.URL_EMAIL, new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response:", response.toString());
+                hideDialog();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean error = jsonObject.getBoolean("error");
+                    if (!error) {
+                        String mensagemSucesso = jsonObject.getString("error_msg");
+                        Toast.makeText(getBaseContext(), mensagemSucesso, Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(CadastroUsuarioActivity.this,LoginActivity.class));
+                    } else {
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
+                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //Pasando os parametros pelo metodo POST
+                Map<String, String> parametros =  new HashMap<>();
+                Log.i("usuarioBean",usuarioBean.toString());
+                parametros.put("email",usuarioBean.getEmail());
+
+                return parametros;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

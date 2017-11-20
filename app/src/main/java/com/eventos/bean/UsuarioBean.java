@@ -111,6 +111,14 @@ public class UsuarioBean {
         this.cidade = cidade;
     }
 
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
+    }
+
+    public void setStatus(char status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "UsuarioBean{" +

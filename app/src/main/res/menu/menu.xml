@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_localizar"
+            android:checked="true"
+            android:title="@string/title_localizar"
+            />
+        <item
+            android:id="@+id/nav_listareventos"
+            android:title="@string/title_listar_eventos" />
+        <item
+            android:id="@+id/nav_alterarperfil"
+            android:title="@string/title_alterar_perfil" />
+        <item
+            android:id="@+id/nav_alterarsenha"
+            android:title="@string/title_alterar_senha" />
+        <item
+            android:id="@+id/nav_sair"
+            android:title="@string/title_sair" />
+
+    </group>
+</menu>

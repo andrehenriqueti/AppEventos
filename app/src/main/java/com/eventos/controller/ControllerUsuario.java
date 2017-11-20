@@ -14,6 +14,8 @@ import com.eventos.activity.LoginActivity;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
+import com.eventos.dao.DaoUsuario;
+import com.eventos.helper.DatabaseHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,5 +36,10 @@ public class ControllerUsuario {
 
     public ControllerUsuario(Context context) {
         this.context = context;
+    }
+
+    public void dadosLogin(UsuarioBean usuarioBean){
+        DaoUsuario daoUsuario = new DaoUsuario(context);
+        daoUsuario.inserir(usuarioBean);
     }
 }
