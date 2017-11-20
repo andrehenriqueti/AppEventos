@@ -1,5 +1,7 @@
 package com.eventos.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eventos.R;
+import com.eventos.fragment.ListaEventosFragment;
 
 public class Menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +101,18 @@ public class Menu extends AppCompatActivity
     }
 
     public void selectDrawerItem(MenuItem menuItem){
-
+        Fragment fragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.nav_listareventos:
+                fragment = new ListaEventosFragment();
+                break;
+            default:
+               break;
+        }
+        if(fragment != null){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.frame_layout,fragment).commit();
+            setTitle(menuItem.getTitle());
+        }
     }
 }

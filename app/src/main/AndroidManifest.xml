@@ -28,6 +28,8 @@
             android:name=".activity.Menu"
             android:label="@string/title_activity_menu">
         </activity>
+        <activity android:name=".activity.CadastroEventoActivity"
+            android:label="Cadastro de Eventos"/>
         <!--<meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB1IZR-qnDiGAiFbGkwSOtGSswSn-NHMlo"/>-->

@@ -33,10 +33,11 @@
     <string name="hint_nome_cadastro">Nome do Evento</string>
     <string name="hint_data_inicio">Data de ínicio</string>
     <string name="hint_data_final">Data final</string>
-    <string name="hint_descricao">Descrição</string>
+    <string name="hint_descricao">Descrição do Evento</string>
     <string name="txt_lotacao">Lotação Máxima</string>
+    <string name="hint_endereco">Endereço do Evento</string>
     <string name="horario_inicio">Horário de ínicio</string>
-    <string name="horario_final">Horário do fim</string>
+    <string name="horario_final">Horário final</string>
     <string name="txt_valor">Valor</string>
     <string name="btn_cadastrar_evento">Criar Evento</string>
 </resources>
