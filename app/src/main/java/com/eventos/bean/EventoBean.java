@@ -18,6 +18,22 @@ public class EventoBean {
     private String emailCriador;
     private float valor;
 
+    public EventoBean() {
+    }
+
+    public EventoBean(String nome, String dataHoraInicio, String dataHoraFim, String descricao, String endereco, int lotacaoMax, double longitude, double latitude, String emailCriador, float valor) {
+        this.nome = nome;
+        this.dataHoraInicio = dataHoraInicio;
+        this.dataHoraFim = dataHoraFim;
+        this.descricao = descricao;
+        this.endereco = endereco;
+        this.lotacaoMax = lotacaoMax;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.emailCriador = emailCriador;
+        this.valor = valor;
+    }
+
     public long getId() {
         return id;
     }
@@ -114,7 +130,21 @@ public class EventoBean {
         this.valor = valor;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "EventoBean{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", dataHoraInicio='" + dataHoraInicio + '\'' +
+                ", dataHoraFim='" + dataHoraFim + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", lotacaoMax=" + lotacaoMax +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", status=" + status +
+                ", emailCriador='" + emailCriador + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
 }

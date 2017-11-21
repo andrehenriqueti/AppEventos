@@ -1,6 +1,7 @@
 package com.eventos.activity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -19,7 +20,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.eventos.R;
+import com.eventos.app.AppConfig;
+import com.eventos.app.AppController;
+import com.eventos.bean.EventoBean;
 import com.eventos.helper.DatePickerDataFinal;
 import com.eventos.helper.DatePickerDataInicial;
 import com.eventos.helper.SessionManager;
@@ -31,9 +39,14 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,11 +70,13 @@ public class CadastroEventoActivity extends AppCompatActivity {
     private String enderecoEvento;
     private String cidade;
     private double latitude,longitude;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
+        progressDialog = new ProgressDialog(this);
         sessionManager = new SessionManager(getBaseContext());
         btnDataInicio = (Button) findViewById(R.id.btn_data_inicio_evento_cadastro);
         btnDataFim = (Button) findViewById(R.id.btn_data_fim_evento_cadastro);
@@ -169,7 +184,12 @@ public class CadastroEventoActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"ENDEREÇO NÃO PODE FICAR VAZIO",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(getBaseContext(),"CADASTRO PODE SER REALIZADO",Toast.LENGTH_SHORT).show();
+            String dataHoraIni = dataComHorarioPSql(dataInicial,horaInicial);
+            String dataHoraFinal = dataComHorarioPSql(dataFinal,horaFinal);
+            Toast.makeText(getBaseContext(),dataHoraIni+" - "+dataHoraFinal,Toast.LENGTH_SHORT).show();
+            EventoBean eventoBean = new EventoBean(nomeEvento, dataHoraIni,dataHoraFinal,
+                    descricao,endereco,Integer.parseInt(lotacao),longitude,latitude,sessionManager.getEmailLogado(),Float.parseFloat(valor));
+            registrarEvento(eventoBean);
         }
     }
 
@@ -187,7 +207,97 @@ public class CadastroEventoActivity extends AppCompatActivity {
         }
     }
 
+    public String dataComHorarioPSql(String data,String horario){
+        int posPrimDaBarra = data.indexOf("/");
+        int posSegDaBarra = data.lastIndexOf("/");
+        String dataFormatada = null;
+        if(posPrimDaBarra == 1){
+            if(posSegDaBarra == 3){
+                dataFormatada = data.substring(4,8)+"-"+data.charAt(2)+"-"+data.charAt(0);
+            }
+            else{
+                dataFormatada = data.substring(5,9) +"-"+ data.substring(2,4) +"-"+ data.charAt(0);
+            }
+        }
+        else{
+            if(posSegDaBarra == 4){
+                dataFormatada = data.substring(5,9) +"-"+ data.charAt(3) +"-"+ data.substring(0,2);
+            }
+            else{
+                dataFormatada = data.substring(6,10) +"-"+ data.substring(3,5) +"-"+ data.substring(0,2);
+            }
+        }
+        return dataFormatada + " " + horario;
+    }
 
+    public void registrarEvento(final EventoBean eventoBean){
+        Log.i("object:",eventoBean.toString());
+        //String utilizada para cancelar a requisição
+        String tag_req = "req_registro";
+        progressDialog.setMessage("Cadastrando Evento...");
+        showDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                AppConfig.URL_REGISTRAR_EVENTO, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response:", response);
+                hideDialog();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean error = jsonObject.getBoolean("error");
+                    if (!error) {
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+
+                    } else {
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
+                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //Pasando os parametros pelo metodo POST
+                Map<String, String> parametros =  new HashMap<>();
+                Log.i("eventoBean",eventoBean.toString());
+                parametros.put("senha",sessionManager.getSenhaLogada());
+                parametros.put("email",sessionManager.getEmailLogado());
+                parametros.put("nome",eventoBean.getNome());
+                parametros.put("dataHoraIni",eventoBean.getDataHoraInicio());
+                parametros.put("dataHoraFim",eventoBean.getDataHoraFim());
+                parametros.put("descricao",eventoBean.getDescricao());
+                parametros.put("endereco",eventoBean.getEndereco());
+                parametros.put("lotacaoMax",eventoBean.getLotacaoMax()+"");
+                parametros.put("latitude",eventoBean.getLatitude()+"");
+                parametros.put("longitude",eventoBean.getLongitude()+"");
+                parametros.put("valor",eventoBean.getValor()+"");
+                parametros.put("cidade",cidade);
+                return parametros;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
