@@ -34,13 +34,12 @@ public class SessionManager {
     private static final String HORARIO_FIM = "horarioFim";
     private static final String HORARIO_INICIO = "horarioInicio";
     private static final String SENHA_LOGADA = "senha";
+    private static final String ENDERECO = "endereco";
 
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
-        //pode dar erro aqui
-        editor.apply();
     }
 
     public void setSenhaLogada(String senhaLogada) {
@@ -104,6 +103,15 @@ public class SessionManager {
 
     public String getEmailLogado() {
         return pref.getString(EMAIL_LOGADO,"");
+    }
+
+    public void setEndereco(String endereco) {
+        editor.putString(ENDERECO,endereco);
+        editor.commit();
+    }
+
+    public String getEndereco() {
+        return pref.getString(ENDERECO,"");
     }
 
     public void setLogin(boolean isLoggedIn) {

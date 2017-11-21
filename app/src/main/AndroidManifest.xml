@@ -31,11 +31,9 @@
         <activity
             android:name=".activity.CadastroEventoActivity"
             android:label="Cadastro de Eventos" />
-        <!--
-            <meta-data
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB1IZR-qnDiGAiFbGkwSOtGSswSn-NHMlo"/>
-        -->
+            android:value="AIzaSyCPICgtnpmXDMrpUw_BsiA9DTqBHO6Hdgg"/>
         <activity android:name=".activity.RecuperarContaSenhaActivity"></activity>
     </application>
 

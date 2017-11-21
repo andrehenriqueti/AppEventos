@@ -40,6 +40,7 @@ public class ListaEventosFragment extends Fragment {
                 sessionManager.setDataInicio("");
                 sessionManager.setHorarioInicio("");
                 sessionManager.setHorarioFim("");
+                sessionManager.setEndereco("");
                 startActivity(new Intent(getActivity().getBaseContext(), CadastroEventoActivity.class));
             }
         });
