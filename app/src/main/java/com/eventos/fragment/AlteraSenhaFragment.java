@@ -72,7 +72,6 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                 else if (!senhaNova.equals(senhaConfirm)){
                     Toast.makeText(getActivity().getBaseContext(), "Campos de senha e confirmação não correspondem", Toast.LENGTH_LONG).show();
                 }
-
                 else{
                     usuarioBean = new UsuarioBean(emailLogado,senhaAtual);
                     alterarSenha(usuarioBean, senhaNova);
