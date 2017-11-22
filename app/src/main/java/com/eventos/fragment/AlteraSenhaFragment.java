@@ -1,6 +1,7 @@
 package com.eventos.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.eventos.R;
+import com.eventos.activity.LoginActivity;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
@@ -38,6 +40,7 @@ public class AlteraSenhaFragment extends android.app.Fragment {
     private Button btn_alterar;
     private SessionManager session;
     private UsuarioBean usuarioBean;
+    private String senhaLogada;
 
 
     public AlteraSenhaFragment(){
@@ -56,9 +59,12 @@ public class AlteraSenhaFragment extends android.app.Fragment {
             public void onClick(View v) {
                 session = new SessionManager(getActivity().getApplicationContext());
                 emailLogado = session.getEmailLogado();
+                senhaLogada = session.getSenhaLogada();
+
                 senhaAtual = ((EditText) view.findViewById(R.id.campo_senhaAtual)).getText().toString().trim();
                 senhaNova = ((EditText) view.findViewById(R.id.campo_senhaNova)).getText().toString().trim();
                 senhaConfirm = ((EditText) view.findViewById(R.id.campo_senhaConfirmar)).getText().toString().trim();
+
 
                 if(senhaAtual.isEmpty() || senhaNova.isEmpty() || senhaConfirm.isEmpty()){
                     Toast.makeText(getActivity().getBaseContext(), "Campos vazios", Toast.LENGTH_LONG).show();
@@ -91,12 +97,13 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                     boolean error = jsonObject.getBoolean("error");
                     String mensagem = jsonObject.getString("error_msg");
                     if(!error){
-                        Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                        SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+                        sessionManager.setEmailLogado("");
+                        sessionManager.setSenhaLogada("");
+                        startActivity(new Intent(getActivity().getBaseContext(),LoginActivity.class));
                         getActivity().finish();
                     }
-                    else{
-                        Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     Toast.makeText(getActivity().getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }

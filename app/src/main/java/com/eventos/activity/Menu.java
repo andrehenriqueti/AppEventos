@@ -136,11 +136,15 @@ public class Menu extends AppCompatActivity
             case R.id.nav_alterarsenha:
                 fragment = new AlteraSenhaFragment();
                 break;
+            case R.id.nav_alterarperfil:
+                fragment = new AlterarPerfilFragment();
+                break;
             case R.id.nav_sair:
                 SessionManager sessionManager = new SessionManager(getBaseContext());
                 sessionManager.setLogin(false);
                 sessionManager.setEmailLogado("");
                 sessionManager.setSenhaLogada("");
+                startActivity(new Intent(this,LoginActivity.class));
                 finish();
             default:
                break;

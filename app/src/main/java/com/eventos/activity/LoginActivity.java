@@ -39,6 +39,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog progressDialog;
     private SessionManager session;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class LoginActivity extends Activity {
         if(session.isLoggedIn()){
             validaLogin(null);
         }
+
         buttonLinkCadastro = (Button) findViewById(R.id.btn_link_cadastrar);
         buttonLogin = (Button) findViewById(R.id.btn_login);
         buttonLinkRecuperar = (Button) findViewById(R.id.btn_link_recuperar);
@@ -92,7 +94,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onResponse(String response) {
-                Log.d("Response:", response.toString());
+                Log.d("Response:", response);
                 hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -104,6 +106,7 @@ public class LoginActivity extends Activity {
                         }
                         session.setLogin(true);
                         startActivity(new Intent(LoginActivity.this,Menu.class));
+                        finish();
                     } else {
                         session.setEmailLogado("");
                         session.setSenhaLogada("");
