@@ -24,6 +24,7 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.fragment.AlteraSenhaFragment;
+import com.eventos.fragment.AlterarPerfilFragment;
 import com.eventos.fragment.ListaEventosFragment;
 import com.eventos.helper.SessionManager;
 
@@ -136,11 +137,15 @@ public class Menu extends AppCompatActivity
             case R.id.nav_alterarsenha:
                 fragment = new AlteraSenhaFragment();
                 break;
+            case R.id.nav_alterarperfil:
+                fragment = new AlterarPerfilFragment();
+                break;
             case R.id.nav_sair:
                 SessionManager sessionManager = new SessionManager(getBaseContext());
                 sessionManager.setLogin(false);
                 sessionManager.setEmailLogado("");
                 sessionManager.setSenhaLogada("");
+                startActivity(new Intent(this,LoginActivity.class));
                 finish();
             default:
                break;
@@ -168,7 +173,8 @@ public class Menu extends AppCompatActivity
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
 
-                    } else {
+                    }
+                    else {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }

@@ -50,4 +50,7 @@
     <string name="listar_pendentes">Pendentes</string>
     <string name="listar_ativos">Acontecendo</string>
     <string name="listar_finalizados">Finalizados</string>
+
+    <string name="btn_alterar">Alterar dados</string>
+    <string name="link_desativar">Desativar conta</string>
 </resources>
