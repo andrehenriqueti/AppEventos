@@ -17,6 +17,7 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
+import com.eventos.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +30,13 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
     private Button btn_recuperarConta;
     private UsuarioBean usuarioBean;
     private ProgressDialog progressDialog;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recuperar_conta_senha);
-
+        sessionManager = new SessionManager(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
@@ -71,9 +73,15 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
                     boolean error = jsonObject.getBoolean("error");
                     String mensagem = jsonObject.getString("error_msg");
                     if (!error) {
+                        Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                        sessionManager.setLogin(false);
+                        sessionManager.setEmailLogado("");
+                        sessionManager.setSenhaLogada("");
                         finish();
                     }
-                    Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                    else{
+                        Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                    }
                 } catch (JSONException e) {
                     Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
