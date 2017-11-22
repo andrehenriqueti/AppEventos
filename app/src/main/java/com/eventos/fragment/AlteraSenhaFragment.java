@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +74,7 @@ public class AlteraSenhaFragment extends android.app.Fragment {
 
             }
         });
-
+        setupToolbar(view);
         return view;
     }
 
@@ -113,5 +116,18 @@ public class AlteraSenhaFragment extends android.app.Fragment {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+
+    private void setupToolbar(View view){
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        appCompatActivity.setSupportActionBar(toolbar);
+        final ActionBar bar = appCompatActivity.getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setShowHideAnimationEnabled(true);
+            bar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+            bar.setTitle("Alterar Senha");
+        }
     }
 }
