@@ -19,7 +19,7 @@ public class AppConfig {
     public static String URL_ALTERAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/alterar_usuario.php";
 
     // desativar usuário url
-    public static String URL_DESATIVAR_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/desativar_conta.php";
+    public static String URL_DESATIVAR_USUARIO = "http://192.168.1.35/GEO/desativar_conta.php";
 
     // recuperar usuário url
     public static String URL_RECUPERAR_USUARIO = "http://192.168.1.35/GEO/recuperar_conta.php";

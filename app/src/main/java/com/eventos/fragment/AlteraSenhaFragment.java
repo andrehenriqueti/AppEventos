@@ -97,6 +97,7 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                     String mensagem = jsonObject.getString("error_msg");
                     if(!error){
                         SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+                        sessionManager.setLogin(false);
                         sessionManager.setEmailLogado("");
                         sessionManager.setSenhaLogada("");
                         startActivity(new Intent(getActivity().getBaseContext(),LoginActivity.class));

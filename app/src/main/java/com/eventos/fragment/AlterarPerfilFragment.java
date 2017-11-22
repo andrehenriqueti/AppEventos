@@ -181,6 +181,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
                     String mensagem = jsonObject.getString("error_msg");
                     if(!error){
                         SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
+                        sessionManager.setLogin(false);
                         sessionManager.setEmailLogado("");
                         sessionManager.setSenhaLogada("");
                         startActivity(new Intent(getActivity().getBaseContext(),LoginActivity.class));
@@ -210,6 +211,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+        AppController.getInstance().getRequestQueue().cancelAll(tag_req);
     }
 
     private void setupToolbar(View view){
