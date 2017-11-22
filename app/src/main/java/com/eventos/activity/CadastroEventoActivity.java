@@ -77,7 +77,7 @@ public class CadastroEventoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_evento);
         progressDialog = new ProgressDialog(this);
-        sessionManager = new SessionManager(getBaseContext());
+        sessionManager = new SessionManager(this);
         btnDataInicio = (Button) findViewById(R.id.btn_data_inicio_evento_cadastro);
         btnDataFim = (Button) findViewById(R.id.btn_data_fim_evento_cadastro);
 
@@ -186,7 +186,6 @@ public class CadastroEventoActivity extends AppCompatActivity {
         else {
             String dataHoraIni = dataComHorarioPSql(dataInicial,horaInicial);
             String dataHoraFinal = dataComHorarioPSql(dataFinal,horaFinal);
-            Toast.makeText(getBaseContext(),dataHoraIni+" - "+dataHoraFinal,Toast.LENGTH_SHORT).show();
             EventoBean eventoBean = new EventoBean(nomeEvento, dataHoraIni,dataHoraFinal,
                     descricao,endereco,Integer.parseInt(lotacao),longitude,latitude,sessionManager.getEmailLogado(),Float.parseFloat(valor));
             registrarEvento(eventoBean);
@@ -247,14 +246,14 @@ public class CadastroEventoActivity extends AppCompatActivity {
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
                         String mensagemErro = jsonObject.getString("error_msg");
-                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                        Toast.makeText(CadastroEventoActivity.this, mensagemErro, Toast.LENGTH_LONG).show();
 
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
-                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                        Toast.makeText(CadastroEventoActivity.this, mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CadastroEventoActivity.this,"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -262,7 +261,7 @@ public class CadastroEventoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(CadastroEventoActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
             @Override
@@ -285,7 +284,6 @@ public class CadastroEventoActivity extends AppCompatActivity {
                 return parametros;
             }
         };
-
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
     }
 

@@ -146,7 +146,6 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     catch(UnsupportedEncodingException e){
                         Log.e("EncodingException",e.getMessage());
                     }
-                    ControllerUsuario controllerUsuario = new ControllerUsuario(getApplicationContext());
                     registrarUsuario(usuarioCadastro);
                 }
             }
@@ -254,6 +253,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    hideDialog();
                     Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }
@@ -297,15 +297,16 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                        String mensagemSucesso = jsonObject.getString("error_msg");
-                        Toast.makeText(getBaseContext(), mensagemSucesso, Toast.LENGTH_LONG).show();
                         sessionManager.setDataNascimento("");
-                        startActivity(new Intent(CadastroUsuarioActivity.this,LoginActivity.class));
+                        Toast.makeText(getBaseContext(), "Aguarde um e-mail com sua senha de acesso", Toast.LENGTH_LONG).show();
+                        finish();
                     } else {
+                        hideDialog();
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    hideDialog();
                     Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }

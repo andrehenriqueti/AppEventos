@@ -90,8 +90,13 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     String mensagem = jsonObject.getString("error_msg");
-
-                    Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                    if(!error){
+                        Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                    }
                 } catch (JSONException e) {
                     Toast.makeText(getActivity().getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }

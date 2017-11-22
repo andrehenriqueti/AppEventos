@@ -163,17 +163,18 @@ public class Menu extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
+                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-
+                        Toast.makeText(Menu.this,"Alguns eventos encontrados", Toast.LENGTH_LONG).show();
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
-                        Toast.makeText(getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Menu.this, mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Menu.this,"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -181,14 +182,15 @@ public class Menu extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(Menu.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
             @Override
             protected Map<String, String> getParams() {
                 //Pasando os parametros pelo metodo POST
                 Map<String, String> parametros =  new HashMap<>();
-                parametros.put("email",session.getSenhaLogada());
+                Log.i("email",session.getEmailLogado());
+                parametros.put("email",session.getEmailLogado());
                 parametros.put("senha",session.getSenhaLogada());
                 return parametros;
             }
