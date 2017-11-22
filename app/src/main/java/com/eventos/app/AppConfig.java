@@ -28,7 +28,7 @@ public class AppConfig {
     public static String URL_ALTERAR_SENHA = "http://192.168.1.35/GEO/alterar_senha.php";
 
     // exibir dados usuário url
-    public static String URL_EXIBIR_DADOS_USUARIO = "https://andrehenriquetatu.000webhostapp.com/GEO/exibe_dados.php";
+    public static String URL_EXIBIR_DADOS_USUARIO = "http://192.168.1.35/GEO/exibe_dados.php";
 
     //------------------- EVENTO ---------------------------
     // registrar evento url

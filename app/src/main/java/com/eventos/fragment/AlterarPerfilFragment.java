@@ -111,10 +111,10 @@ public class AlterarPerfilFragment extends android.app.Fragment {
                     }
                     else {
                         String mensagemErro = jsonObject.getString("error_msg");
-                        Toast.makeText(getActivity().getBaseContext(), mensagemErro, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getActivity().getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplication(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
