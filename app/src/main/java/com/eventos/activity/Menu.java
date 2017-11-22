@@ -24,6 +24,7 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.fragment.AlteraSenhaFragment;
+import com.eventos.fragment.AlterarPerfilFragment;
 import com.eventos.fragment.ListaEventosFragment;
 import com.eventos.helper.SessionManager;
 
@@ -173,6 +174,7 @@ public class Menu extends AppCompatActivity
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
                         Toast.makeText(Menu.this,"Alguns eventos encontrados", Toast.LENGTH_LONG).show();
+                        //AQUI EU SLAVOS OS EVENTOS NO BANCO
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(Menu.this, mensagemErro, Toast.LENGTH_LONG).show();
