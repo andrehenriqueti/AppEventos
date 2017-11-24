@@ -247,7 +247,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
-        AppController.getInstance().getRequestQueue().cancelAll(tag_req);
+       // AppController.getInstance().getRequestQueue().cancelAll(tag_req);
     }
 
     private void setupToolbar(View view){
