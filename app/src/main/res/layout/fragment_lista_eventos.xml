@@ -11,12 +11,19 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
-        <ListView
-            android:id="@id/android:list"
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/btn_navegacao"
             android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/tipos_listagem" />
 
+        <ListView
+            android:id="@id/android:list"
+            android:layout_below="@id/btn_navegacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
      <android.support.design.widget.FloatingActionButton
@@ -26,13 +33,5 @@
             android:layout_gravity="end"
             android:src="@drawable/ic_add_location_black_24dp"
             android:layout_margin="@dimen/fab_margin"/>
-
-      <android.support.design.widget.BottomNavigationView
-            android:id="@+id/btn_navegacao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/tipos_listagem" />
 
 </android.support.design.widget.CoordinatorLayout>

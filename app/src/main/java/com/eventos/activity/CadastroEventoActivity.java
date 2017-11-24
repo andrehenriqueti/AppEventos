@@ -184,6 +184,12 @@ public class CadastroEventoActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"ENDEREÇO NÃO PODE FICAR VAZIO",Toast.LENGTH_SHORT).show();
         }
         else {
+            if(valor.isEmpty()){
+                valor = "0.0";
+            }
+            if(lotacao.isEmpty()){
+                lotacao = "0";
+            }
             String dataHoraIni = dataComHorarioPSql(dataInicial,horaInicial);
             String dataHoraFinal = dataComHorarioPSql(dataFinal,horaFinal);
             EventoBean eventoBean = new EventoBean(nomeEvento, dataHoraIni,dataHoraFinal,
@@ -247,6 +253,7 @@ public class CadastroEventoActivity extends AppCompatActivity {
                     if (!error) {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(CadastroEventoActivity.this, mensagemErro, Toast.LENGTH_LONG).show();
+                        finish();
 
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
@@ -261,7 +268,7 @@ public class CadastroEventoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(CadastroEventoActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
             }
         }){
             @Override
@@ -387,16 +394,19 @@ public class CadastroEventoActivity extends AppCompatActivity {
             int hi[], hf[];
             hi = retornaHorarios(horaInicial);
             hf = retornaHorarios(horaFinal);
+            Calendar hoje = Calendar.getInstance();
+            int horarioAtual = hoje.get(Calendar.HOUR_OF_DAY) * 60 + hoje.get(Calendar.MINUTE) ;
             int horasInicialEmMinutos = hi[0] * 60 + hi[1];
             int horasFinalEmMinutos = hf[0] * 60 + hf[1];
-
-            if (horasFinalEmMinutos > horasInicialEmMinutos) {
-                return true;
-            } else if (horasInicialEmMinutos > horasFinalEmMinutos && !btnDataInicio.getText().toString().equals(btnDataFim.getText().toString())) {
-                return true;
-            } else {
-                return false;
+            if (btnDataInicio.getText().toString().equals(btnDataFim.getText().toString())){
+                if(horasFinalEmMinutos > horarioAtual && horasFinalEmMinutos > horasInicialEmMinutos){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
+            return true;
         }
         else {
             return false;

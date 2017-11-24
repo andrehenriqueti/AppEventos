@@ -35,6 +35,7 @@ public class SessionManager {
     private static final String HORARIO_INICIO = "horarioInicio";
     private static final String SENHA_LOGADA = "senha";
     private static final String ENDERECO = "endereco";
+    private static final String LISTA_SELECIONADA = "listaSelecionada";
 
     public SessionManager(Context context) {
         this._context = context;
@@ -114,6 +115,15 @@ public class SessionManager {
         return pref.getString(ENDERECO,"");
     }
 
+    public void setListaSelecionada(int listaSelecionada) {
+        editor.putInt(LISTA_SELECIONADA,listaSelecionada);
+        editor.commit();
+    }
+
+    public int getListaSelecionada() {
+        return pref.getInt(LISTA_SELECIONADA,0);
+    }
+
     public void setLogin(boolean isLoggedIn) {
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
 
@@ -124,4 +134,6 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
+
+
 }

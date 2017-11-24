@@ -122,7 +122,7 @@ public class LoginActivity extends Activity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
             }
         }){
             @Override

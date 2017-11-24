@@ -20,7 +20,6 @@ import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
-import com.eventos.controller.ControllerUsuario;
 import com.eventos.helper.DatePickerDataNascimento;
 import com.eventos.helper.SessionManager;
 
@@ -262,7 +261,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
             }
         }){
             @Override
@@ -314,7 +313,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity{
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
             }
         }){
             @Override

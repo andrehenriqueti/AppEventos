@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,9 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         mensagem.setMessage("Digite sua senha");
 
         final EditText input = new EditText(getActivity().getBaseContext());
+        input.setTextColor(getResources().getColor(R.color.black));
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        //input.setTransformationMethod(PasswordTransformationMethod.getInstance());
         mensagem.setView(input);
         mensagem.setPositiveButton("sim",
                 new DialogInterface.OnClickListener() {

@@ -39,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String DATA_FINAL = "data_hora_final";
         public static final String VALOR_EVENTO = "valor_evento";
         public static final String CIDADE = "cidade";
+        public static final String EMAIL = "email";
         public static final String[] COLUNAS = new String[]{_ID,NOME,DESCRICAO,ENDERECO,STATUS,LATITUDE,LONGITUDE,LOTACAO,DATA_INICIAL,
         DATA_FINAL,VALOR_EVENTO,CIDADE};
     }
@@ -50,20 +51,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE usuario (" +
+        /*db.execSQL("CREATE TABLE usuario (" +
                 "email_usuario VARCHAR(60) PRIMARY KEY, " +
                 "senha_usuario VARCHAR(255) NOT NULL, " +
                 "nome_usuario VARCHAR(60) , " +
                 "sexo_usuario CHARACTER(1), " +
                 "telefone_usuario VARCHAR(20), " +
                 "status_usuario CHARACTER(1),  " +
-                "dataNascimento_usuario DATE) ;");
+                "dataNascimento_usuario DATE) ;");*/
         String create_evento = "CREATE TABLE "+Evento.TABELA+" (" +
                 Evento._ID+" INTEGER, "+Evento.NOME+" VARCHAR(20), "+
                 Evento.DESCRICAO+" VARCHAR(140), "+Evento.ENDERECO+" VARCHAR(100),"+
-                Evento.STATUS+" CHAR, "+Evento.LATITUDE+" DOUBLE,"+Evento.LONGITUDE+"DOUBLE,"+
-                Evento.LOTACAO+" INTEGER,"+Evento.DATA_INICIAL+"VARCHAR(19),"+Evento.DATA_FINAL+" VARCHAR(19),"+
-                Evento.VALOR_EVENTO+" DOUBLE,"+Evento.CIDADE+" VARCHAR(50));";
+                Evento.STATUS+" CHAR, "+Evento.LATITUDE+" DOUBLE,"+Evento.LONGITUDE+" DOUBLE,"+
+                Evento.LOTACAO+" INTEGER,"+Evento.DATA_INICIAL+" VARCHAR(19),"+Evento.DATA_FINAL+" VARCHAR(19),"+
+                Evento.VALOR_EVENTO+" DOUBLE,"+Evento.CIDADE+" VARCHAR(50), "+Evento.EMAIL+" VARCHAR(60));";
         db.execSQL(create_evento);
     }
 

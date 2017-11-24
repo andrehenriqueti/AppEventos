@@ -17,8 +17,27 @@ public class EventoBean {
     private Character status;
     private String emailCriador;
     private float valor;
+    private String cidade;
+
+
 
     public EventoBean() {
+    }
+
+    public EventoBean(long id, String nome, String dataHoraInicio, String dataHoraFim, String descricao, String endereco, int lotacaoMax, double longitude, double latitude, Character status, String emailCriador, float valor, String cidade) {
+        this.id = id;
+        this.nome = nome;
+        this.dataHoraInicio = dataHoraInicio;
+        this.dataHoraFim = dataHoraFim;
+        this.descricao = descricao;
+        this.endereco = endereco;
+        this.lotacaoMax = lotacaoMax;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.status = status;
+        this.emailCriador = emailCriador;
+        this.valor = valor;
+        this.cidade = cidade;
     }
 
     public EventoBean(String nome, String dataHoraInicio, String dataHoraFim, String descricao, String endereco, int lotacaoMax, double longitude, double latitude, String emailCriador, float valor) {
@@ -128,6 +147,14 @@ public class EventoBean {
 
     public void setValor(float valor) {
         this.valor = valor;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     @Override

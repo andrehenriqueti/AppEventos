@@ -2,6 +2,7 @@ package com.eventos.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,11 +24,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.eventos.R;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
+import com.eventos.controller.Controller;
 import com.eventos.fragment.AlteraSenhaFragment;
 import com.eventos.fragment.AlterarPerfilFragment;
 import com.eventos.fragment.ListaEventosFragment;
 import com.eventos.helper.SessionManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -129,10 +132,11 @@ public class Menu extends AppCompatActivity
 
     public void selectDrawerItem(MenuItem menuItem){
         Fragment fragment = null;
+        ListFragment listFragment = null;
         switch (menuItem.getItemId()){
             case R.id.nav_listareventos:
                 recebeEventos();
-                fragment = new ListaEventosFragment();
+                listFragment = new ListaEventosFragment();
                 break;
             case R.id.nav_alterarsenha:
                 fragment = new AlteraSenhaFragment();
@@ -150,9 +154,16 @@ public class Menu extends AppCompatActivity
             default:
                break;
         }
+        // Inicia o listar eventos com a exibição dos eventos pendentes
+        session.setListaSelecionada(1);
         if(fragment != null){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_layout,fragment).commit();
+            setTitle(menuItem.getTitle());
+        }
+        else if(listFragment != null){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.frame_layout,listFragment).commit();
             setTitle(menuItem.getTitle());
         }
     }
@@ -174,7 +185,10 @@ public class Menu extends AppCompatActivity
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
                         Toast.makeText(Menu.this,"Alguns eventos encontrados", Toast.LENGTH_LONG).show();
-                        //AQUI EU SLAVOS OS EVENTOS NO BANCO
+                        JSONArray jsonArrayEventos = jsonObject.getJSONArray("eventos");
+                        Controller controller = new Controller(Menu.this);
+                        Log.i("jsonArrayEventos",jsonArrayEventos.toString());
+                        controller.salvarEventos(jsonArrayEventos);
                     } else {
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(Menu.this, mensagemErro, Toast.LENGTH_LONG).show();
@@ -188,7 +202,7 @@ public class Menu extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
                 hideDialog();
-                Toast.makeText(Menu.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
             }
         }){
             @Override
