@@ -1,5 +1,6 @@
 package com.eventos.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,6 +42,8 @@ public class AlteraSenhaFragment extends android.app.Fragment {
     private SessionManager session;
     private UsuarioBean usuarioBean;
     private String senhaLogada;
+    private ProgressDialog progressDialog;
+
 
 
     public AlteraSenhaFragment(){
@@ -60,6 +63,8 @@ public class AlteraSenhaFragment extends android.app.Fragment {
                 session = new SessionManager(getActivity().getApplicationContext());
                 emailLogado = session.getEmailLogado();
                 senhaLogada = session.getSenhaLogada();
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setCancelable(false);
 
                 senhaAtual = ((EditText) view.findViewById(R.id.campo_senhaAtual)).getText().toString().trim();
                 senhaNova = ((EditText) view.findViewById(R.id.campo_senhaNova)).getText().toString().trim();
@@ -87,10 +92,13 @@ public class AlteraSenhaFragment extends android.app.Fragment {
         Log.i("object:",usuarioBean.toString());
         //String utilizada para cancelar a requisição
         String tag_req = "req_registro";
+        progressDialog.setMessage("Alterando senha...");
+        showDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ALTERAR_SENHA, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
+                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
@@ -112,6 +120,7 @@ public class AlteraSenhaFragment extends android.app.Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
                 Toast.makeText(getActivity().getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
@@ -141,5 +150,14 @@ public class AlteraSenhaFragment extends android.app.Fragment {
             bar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             bar.setTitle("Alterar Senha");
         }
+    }
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

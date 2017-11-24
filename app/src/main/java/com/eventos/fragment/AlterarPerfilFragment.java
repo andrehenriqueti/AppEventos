@@ -1,5 +1,6 @@
 package com.eventos.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,15 +29,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.eventos.R;
+import com.eventos.activity.CadastroUsuarioActivity;
 import com.eventos.activity.LoginActivity;
 import com.eventos.app.AppConfig;
 import com.eventos.app.AppController;
 import com.eventos.bean.UsuarioBean;
+import com.eventos.helper.DatePickerDataNascimento;
 import com.eventos.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +53,9 @@ public class AlterarPerfilFragment extends android.app.Fragment {
     private UsuarioBean usuarioBean;
     private SessionManager sessionManager;
     private String emailLogado, senhaLogado;
+    private ProgressDialog progressDialog;
+    private DatePickerDataNascimento datePickerDialog;
+
 
     public AlterarPerfilFragment() {
         // Required empty public constructor
@@ -62,6 +69,10 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         emailLogado = sessionManager.getEmailLogado();
         senhaLogado = sessionManager.getSenhaLogada();
         usuarioBean = new UsuarioBean(emailLogado,senhaLogado);
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+
 
         nome = (EditText) view.findViewById(R.id.nome_usuario_alterar);
         telefone = (EditText) view.findViewById(R.id.telefone_usuario_alterar);
@@ -84,6 +95,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
                 alertDesativar();
             }
         });
+
         setupToolbar(view);
         return view;
     }
@@ -92,12 +104,15 @@ public class AlterarPerfilFragment extends android.app.Fragment {
     public void preencheCampos(final UsuarioBean usuarioBean){
         //String utilizada para cancelar a requisição
         String tag_req = "req_registro";
+        progressDialog.setMessage("Carregando...");
+        showDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 AppConfig.URL_EXIBIR_DADOS_USUARIO, new Response.Listener<String>(){
 
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
+                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonUsuario = jsonObject.getJSONObject("usuario");
@@ -105,10 +120,26 @@ public class AlterarPerfilFragment extends android.app.Fragment {
                     if (!error) {
                         nome.setText(jsonUsuario.getString("nome"));
                         telefone.setText(jsonUsuario.getString("telefone"));
-
-                        //ARRUMAR ESSA PARTE, FALTA INSERIR ESSES DADOS NA TELA DO USUÁRIO.
                         char sexo = jsonUsuario.getString("sexo").charAt(0);
                         String dataNasc = jsonUsuario.getString("dataNascimento");
+                        dataNasc = dataPadraoBR(dataNasc);
+                        btn_datNascimento.setText(dataNasc);
+                        int posicaoSpinner = 0;
+                        switch (sexo){
+                            case 'M':
+                                posicaoSpinner = 1;
+                                break;
+                            case 'F':
+                                posicaoSpinner = 2;
+                                break;
+                            case 'O':
+                                posicaoSpinner = 3;
+                                break;
+                            case 'N':
+                                posicaoSpinner = 4;
+                                break;
+                        }
+                        spinnerSexo.setSelection(posicaoSpinner);
                     }
                     else {
                         String mensagemErro = jsonObject.getString("error_msg");
@@ -122,6 +153,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
                 Toast.makeText(getActivity().getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }){
@@ -229,5 +261,36 @@ public class AlterarPerfilFragment extends android.app.Fragment {
             bar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             bar.setTitle("Alterar Dados");
         }
+    }
+
+    public String dataPadraoBR(String dataNascimentoUsuario){
+        int tamanho = dataNascimentoUsuario.length() - 1;
+        int posSegDaBarra = dataNascimentoUsuario.lastIndexOf("-");
+        String data = null;
+        if(posSegDaBarra == 7) {
+            if (tamanho == 9) {
+                data = dataNascimentoUsuario.substring(8) + "/" + dataNascimentoUsuario.substring(5, 7) + "/" + dataNascimentoUsuario.substring(0, 4);
+            } else {
+                data = dataNascimentoUsuario.substring(8) + "/" + dataNascimentoUsuario.substring(5,7) + "/" + dataNascimentoUsuario.substring(0,4);
+            }
+        }
+        else {
+            if (tamanho == 8) {
+                data = dataNascimentoUsuario.substring(7) + "/" + dataNascimentoUsuario.charAt(5) + "/" + dataNascimentoUsuario.substring(0, 4);
+            } else {
+                data = dataNascimentoUsuario.substring(7) + "/" + dataNascimentoUsuario.charAt(5)+ "/" + dataNascimentoUsuario.substring(0,4);
+            }
+        }
+        return data;
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }
