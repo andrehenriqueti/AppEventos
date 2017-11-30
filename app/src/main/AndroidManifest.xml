@@ -31,6 +31,7 @@
         <activity
             android:name=".activity.CadastroEventoActivity"
             android:label="Cadastro de Eventos" />
+        <activity android:name=".activity.InformacoesEventoActivity"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCPICgtnpmXDMrpUw_BsiA9DTqBHO6Hdgg"/>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.eventos.activity.CadastroUsuarioActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/toolbar"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0,1">
+                <TableRow>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="0,1"
+                        android:background="@drawable/celula">
+
+                        <TableRow >
+                            <TextView
+                                android:id="@+id/mes_inicio_evento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_gravity="center"
+                                android:text="DEZ"
+                                android:textSize="18sp" />
+                        </TableRow>
+                        <TableRow>
+                            <TextView
+                                android:id="@+id/dia_inicio_evento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_gravity="center"
+                                android:text="2"
+                                android:textSize="15sp" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/exibi_nome_evento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/hint_nome_cadastro"
+                        android:textSize="20sp" />
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableRow android:layout_marginTop="10dp">
+                    <ImageView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_watch_later_black_24dp"
+                        />
+                    <TextView
+                        android:id="@+id/data_evento"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16sp"
+                        android:text="@string/hint_data_final"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                </TableRow>
+                <TableRow android:layout_marginTop="10dp">
+                    <ImageView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_room_black_24dp"
+                        />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:id="@+id/endereco_evento"
+                        android:textSize="16sp"
+                        android:text="@string/hint_data_final"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"/>
+                </TableRow>
+            </TableLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/descricao_evento"
+                android:layout_width="match_parent"
+                android:hint="@string/hint_descricao"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

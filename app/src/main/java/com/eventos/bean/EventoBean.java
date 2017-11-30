@@ -1,10 +1,12 @@
 package com.eventos.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Victor on 05/11/2017.
  */
 
-public class EventoBean {
+public class EventoBean implements Serializable{
     private long id;
     private String nome;
     private String dataHoraInicio;
@@ -21,7 +23,17 @@ public class EventoBean {
 
 
 
-    public EventoBean() {
+    public EventoBean() {}
+
+    public EventoBean(long id, String nome, String dataHoraInicio, String dataHoraFim, String descricao, String endereco, int lotacaoMax, float valor ){
+        this.id = id;
+        this.nome = nome;
+        this.dataHoraFim = dataHoraFim;
+        this.dataHoraInicio = dataHoraInicio;
+        this.descricao = descricao;
+        this.endereco = endereco;
+        this.lotacaoMax = lotacaoMax;
+        this.valor = valor;
     }
 
     public EventoBean(long id, String nome, String dataHoraInicio, String dataHoraFim, String descricao, String endereco, int lotacaoMax, double longitude, double latitude, Character status, String emailCriador, float valor, String cidade) {

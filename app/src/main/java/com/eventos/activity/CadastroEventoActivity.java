@@ -203,11 +203,11 @@ public class CadastroEventoActivity extends AppCompatActivity {
             startActivityForResult(new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this), REQUEST_CODE);
         }
         catch (GooglePlayServicesRepairableException e) {
-            Toast.makeText(this,"Erro no apliactivo GooglePlayServices",Toast.LENGTH_LONG);
+            Toast.makeText(this,"Erro no aplicativo Google Play Services",Toast.LENGTH_LONG);
             Log.e("GooglePlayServiceError",e.getMessage());
         }
         catch(GooglePlayServicesNotAvailableException e){
-            Toast.makeText(this,"Instale o aplicativo GooglePlayServices",Toast.LENGTH_LONG);
+            Toast.makeText(this,"Instale o aplicativo Google Play Services",Toast.LENGTH_LONG);
             Log.e("GooglePlayServiceError",e.getMessage());
         }
     }

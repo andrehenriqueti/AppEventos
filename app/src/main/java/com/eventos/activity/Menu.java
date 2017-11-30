@@ -46,6 +46,7 @@ public class Menu extends AppCompatActivity
     private TextView email;
     private SessionManager session;
     private ProgressDialog progressDialog;
+    private int opcaoSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +101,6 @@ public class Menu extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        session = new SessionManager(this);
-        session.setEmailLogado("");
-        session.setSenhaLogada("");
-        session.setLogin(false);
         if(isNavigationDrawerOpen()){
             closeNavigationDrawer();
         }
@@ -130,18 +127,29 @@ public class Menu extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        if(opcaoSelecionada == R.id.nav_listareventos){
+            recebeEventos();
+        }
+        super.onResume();
+    }
+
     public void selectDrawerItem(MenuItem menuItem){
         Fragment fragment = null;
         ListFragment listFragment = null;
         switch (menuItem.getItemId()){
             case R.id.nav_listareventos:
                 recebeEventos();
+                opcaoSelecionada = R.id.nav_listareventos;
                 listFragment = new ListaEventosFragment();
                 break;
             case R.id.nav_alterarsenha:
+                opcaoSelecionada = R.id.nav_alterarsenha;
                 fragment = new AlteraSenhaFragment();
                 break;
             case R.id.nav_alterarperfil:
+                opcaoSelecionada = R.id.nav_alterarperfil;
                 fragment = new AlterarPerfilFragment();
                 break;
             case R.id.nav_sair:
