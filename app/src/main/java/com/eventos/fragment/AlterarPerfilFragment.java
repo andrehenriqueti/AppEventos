@@ -8,6 +8,8 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -152,6 +154,7 @@ public class AlterarPerfilFragment extends android.app.Fragment {
                 else{
                     try {
                         usuarioBean = new UsuarioBean(nomeUsuario, emailLogado, senhaLogado, dataPadraoSQL(dataNascimentoUsuario), sexoUsuario, telefoneUsuario);
+                        Log.i("usuarioBean",usuarioBean.toString());
                     }
                     catch(Exception e){
                         Log.e("Exception",e.getMessage());
@@ -163,9 +166,54 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         setupToolbar(view);
         return view;
     }
-
+    //REVER CODIGO
     public void alteraUsuario(final UsuarioBean usuarioBean){
+        Log.i("object:",usuarioBean.toString());
+        //String utilizada para cancelar a requisição
+        String tag_req = "req_registro";
+        progressDialog.setMessage("Alterando dados...");
+        showDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ALTERAR_USUARIO, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response:", response);
+                hideDialog();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean error = jsonObject.getBoolean("error");
+                    String mensagem = jsonObject.getString("error_msg");
+                    if(!error){
+                        sessionManager.setDataNascimento(usuarioBean.getDataNascimento());
+                    }
+                    Toast.makeText(getActivity().getBaseContext(), mensagem, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    Toast.makeText(getActivity().getBaseContext(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
+                Toast.makeText(getActivity().getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //Pasando os parametros pelo metodo POST
+                Map<String, String> parametros =  new HashMap<>();
+                Log.i("usuarioBean",usuarioBean.toString());
+                parametros.put("email",usuarioBean.getEmail());
+                parametros.put("senha",usuarioBean.getSenha());
+                parametros.put("nome",usuarioBean.getNome());
+                parametros.put("dataNascimento",usuarioBean.getDataNascimento());
+                parametros.put("sexo",usuarioBean.getSexo().toString());
+                parametros.put("telefone",usuarioBean.getTelefone());
+                return parametros;
+            }
+        };
 
+        AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
     }
 
 
@@ -430,4 +478,6 @@ public class AlterarPerfilFragment extends android.app.Fragment {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
+
+
 }
