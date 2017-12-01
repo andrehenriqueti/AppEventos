@@ -187,7 +187,6 @@ public class Menu extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 Log.d("Response:", response);
-                hideDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
@@ -197,11 +196,14 @@ public class Menu extends AppCompatActivity
                         Controller controller = new Controller(Menu.this);
                         Log.i("jsonArrayEventos",jsonArrayEventos.toString());
                         controller.salvarEventos(jsonArrayEventos);
+                        hideDialog();
                     } else {
+                        hideDialog();
                         String mensagemErro = jsonObject.getString("error_msg");
                         Toast.makeText(Menu.this, mensagemErro, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    hideDialog();
                     Toast.makeText(Menu.this,"Erro ao se conectar", Toast.LENGTH_LONG).show();
                 }
             }

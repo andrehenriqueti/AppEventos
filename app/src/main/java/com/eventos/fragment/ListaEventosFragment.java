@@ -3,6 +3,7 @@ package com.eventos.fragment;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +12,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -20,10 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.android.volley.ExecutorDelivery;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -64,6 +69,7 @@ public class ListaEventosFragment extends ListFragment {
     private SessionManager sessionManager;
     private Snackbar mostraOpcao;
     private HashMap<String,Object> eventoSelecionado;
+    private ProgressDialog progressDialog;
 
     public ListaEventosFragment(){
 
@@ -152,13 +158,14 @@ public class ListaEventosFragment extends ListFragment {
         excluir.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
+                alertExcluir();
                 return false;
             }
         });
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(getActivity());
         listaViewEventos = getListView();
         switch (sessionManager.getListaSelecionada()){
             case 1:
@@ -212,6 +219,140 @@ public class ListaEventosFragment extends ListFragment {
         atualizar.putExtra("evento",eventoBean);
         Log.i("evento",eventoBean.toString());
         startActivity(atualizar);
+    }
+
+    private void excluirEvento(final long id){
+        String tag_req = "req_excluir";
+        progressDialog.setMessage("Excluindo Evento...");
+        showDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                AppConfig.URL_EXCLUIR_EVENTO, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response:", response);
+                hideDialog();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean error = jsonObject.getBoolean("error");
+                    if (!error) {
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getActivity(), mensagemErro, Toast.LENGTH_LONG).show();
+                        recebeEventos();
+                    } else {
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getActivity(), mensagemErro, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getActivity(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
+                Toast.makeText(getActivity(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //Pasando os parametros pelo metodo POST
+                Map<String, String> parametros =  new HashMap<>();
+                parametros.put("senha",sessionManager.getSenhaLogada());
+                parametros.put("email",sessionManager.getEmailLogado());
+                parametros.put("id",id+"");
+                return parametros;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+
+    }
+
+    public void recebeEventos(){
+        //String utilizada para cancelar a requisição
+        String tag_req = "req_registro";
+        progressDialog.setMessage("Listando Eventos ...");
+        showDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                AppConfig.URL_EXIBE_EVENTOS, new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response:", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean error = jsonObject.getBoolean("error");
+                    if (!error) {
+                        Toast.makeText(getActivity(),"Alguns eventos encontrados", Toast.LENGTH_LONG).show();
+                        JSONArray jsonArrayEventos = jsonObject.getJSONArray("eventos");
+                        Controller controller = new Controller(getActivity());
+                        Log.i("jsonArrayEventos",jsonArrayEventos.toString());
+                        controller.salvarEventos(jsonArrayEventos);
+                        hideDialog();
+                    } else {
+                        hideDialog();
+                        String mensagemErro = jsonObject.getString("error_msg");
+                        Toast.makeText(getActivity(), mensagemErro, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    hideDialog();
+                    Toast.makeText(getActivity(),"Erro ao se conectar", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ao registrar: ",error.toString());
+                hideDialog();
+                Toast.makeText(getActivity(),"Erro ao se conectar, verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //Pasando os parametros pelo metodo POST
+                Map<String, String> parametros =  new HashMap<>();
+                parametros.put("email",sessionManager.getEmailLogado());
+                parametros.put("senha",sessionManager.getSenhaLogada());
+                return parametros;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest,tag_req);
+    }
+
+    public void alertExcluir(){
+        AlertDialog.Builder mensagem = new AlertDialog.Builder(getActivity());
+        mensagem.setTitle("DESEJA REALMENTE EXCLUIR?");
+        mensagem.setMessage("Digite sua senha");
+
+        final EditText input = new EditText(getActivity().getBaseContext());
+        input.setTextColor(getResources().getColor(R.color.black));
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        mensagem.setView(input);
+        mensagem.setPositiveButton("SIM",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String senhaLogada = sessionManager.getSenhaLogada();
+                        if(senhaLogada.equals(input.getText().toString().trim())){
+                            excluirEvento((long)eventoSelecionado.get(DatabaseHelper.Evento._ID));
+                        }
+                        else{
+                            Toast.makeText(getActivity().getBaseContext(),"Senha incorreta",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+        mensagem.setNegativeButton("NÃO", null);
+        mensagem.show();
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     private void setupToolbar(View view){
