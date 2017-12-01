@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.eventos.R;
+import com.eventos.activity.AlterarEventoActivity;
 import com.eventos.activity.CadastroEventoActivity;
 import com.eventos.activity.InformacoesEventoActivity;
 import com.eventos.activity.Menu;
@@ -133,7 +134,7 @@ public class ListaEventosFragment extends ListFragment {
         alterar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
+                atualizarEvento(eventoSelecionado);
                 return false;
             }
         });
@@ -195,6 +196,22 @@ public class ListaEventosFragment extends ListFragment {
         maisInfo.putExtra("evento",eventoBean);
         Log.i("evento",eventoBean.toString());
         startActivity(maisInfo);
+    }
+
+    private void atualizarEvento(HashMap eventoSelecionado){
+        EventoBean eventoBean = new EventoBean((long)eventoSelecionado.get(DatabaseHelper.Evento._ID),
+                (String)eventoSelecionado.get(DatabaseHelper.Evento.NOME),
+                (String)eventoSelecionado.get(DatabaseHelper.Evento.DATA_INICIAL),
+                (String)eventoSelecionado.get(DatabaseHelper.Evento.DATA_FINAL),
+                (String)eventoSelecionado.get(DatabaseHelper.Evento.DESCRICAO),
+                (String) eventoSelecionado.get(DatabaseHelper.Evento.ENDERECO),
+                (int)eventoSelecionado.get(DatabaseHelper.Evento.LOTACAO),
+                (float)eventoSelecionado.get(DatabaseHelper.Evento.VALOR_EVENTO));
+        eventoBean.setCidade((String) eventoSelecionado.get(DatabaseHelper.Evento.CIDADE));
+        Intent atualizar = new Intent(getActivity().getBaseContext(),AlterarEventoActivity.class);
+        atualizar.putExtra("evento",eventoBean);
+        Log.i("evento",eventoBean.toString());
+        startActivity(atualizar);
     }
 
     private void setupToolbar(View view){

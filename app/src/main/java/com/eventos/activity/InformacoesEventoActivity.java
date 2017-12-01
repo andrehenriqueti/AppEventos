@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.eventos.R;
@@ -57,9 +58,13 @@ public class InformacoesEventoActivity extends AppCompatActivity {
         setupToolbar();
     }
 
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupToolbar(){
@@ -67,8 +72,8 @@ public class InformacoesEventoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final ActionBar bar = getSupportActionBar();
         if(bar != null){
-            //bar.setDisplayHomeAsUpEnabled(true);
-            //bar.setShowHideAnimationEnabled(true);
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setShowHideAnimationEnabled(true);
             bar.setTitle("Informações do Evento");
         }
     }
