@@ -35,6 +35,15 @@ public class UsuarioBean {
         this.telefone = telefone;
     }
 
+    public UsuarioBean(String nome, String email,String senha, String dataNascimento, char sexo, String telefone){
+        this.nome = nome;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+        this.telefone = telefone;
+        this.senha = senha;
+    }
+
     public String getNome() {
         return nome;
     }
