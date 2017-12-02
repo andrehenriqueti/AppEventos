@@ -28,6 +28,7 @@ import com.eventos.controller.Controller;
 import com.eventos.fragment.AlteraSenhaFragment;
 import com.eventos.fragment.AlterarPerfilFragment;
 import com.eventos.fragment.ListaEventosFragment;
+import com.eventos.fragment.MapaFragment;
 import com.eventos.helper.SessionManager;
 
 import org.json.JSONArray;
@@ -139,6 +140,10 @@ public class Menu extends AppCompatActivity
         Fragment fragment = null;
         ListFragment listFragment = null;
         switch (menuItem.getItemId()){
+            case R.id.nav_localizar:
+                opcaoSelecionada = R.id.nav_listareventos;
+                fragment = new MapaFragment();
+                break;
             case R.id.nav_listareventos:
                 recebeEventos();
                 opcaoSelecionada = R.id.nav_listareventos;

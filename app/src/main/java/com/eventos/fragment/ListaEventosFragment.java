@@ -221,6 +221,22 @@ public class ListaEventosFragment extends ListFragment {
         startActivity(atualizar);
     }
 
+    private void restauraListaEventos(){
+        switch (sessionManager.getListaSelecionada()){
+            case 1:
+                listaViewEventos.setAdapter(new SimpleAdapter(getActivity().getBaseContext(),daoEvento.listarEventos('P'),R.layout.componente_lista,de,para));
+                break;
+            case 2:
+                listaViewEventos.setAdapter(new SimpleAdapter(getActivity().getBaseContext(),daoEvento.listarEventos('A'),R.layout.componente_lista,de,para));
+                break;
+            case 3:
+                listaViewEventos.setAdapter(new SimpleAdapter(getActivity().getBaseContext(),daoEvento.listarEventos('F'),R.layout.componente_lista,de,para));
+                break;
+            default:
+                break;
+        }
+    }
+
     private void excluirEvento(final long id){
         String tag_req = "req_excluir";
         progressDialog.setMessage("Excluindo Evento...");
@@ -288,6 +304,7 @@ public class ListaEventosFragment extends ListFragment {
                         Controller controller = new Controller(getActivity());
                         Log.i("jsonArrayEventos",jsonArrayEventos.toString());
                         controller.salvarEventos(jsonArrayEventos);
+                        restauraListaEventos();
                         hideDialog();
                     } else {
                         hideDialog();
