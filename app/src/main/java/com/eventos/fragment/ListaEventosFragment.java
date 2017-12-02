@@ -299,7 +299,7 @@ public class ListaEventosFragment extends ListFragment {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean error = jsonObject.getBoolean("error");
                     if (!error) {
-                        Toast.makeText(getActivity(),"Alguns eventos encontrados", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),"Alguns eventos encontrados", Toast.LENGTH_SHORT).show();
                         JSONArray jsonArrayEventos = jsonObject.getJSONArray("eventos");
                         Controller controller = new Controller(getActivity());
                         Log.i("jsonArrayEventos",jsonArrayEventos.toString());

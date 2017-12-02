@@ -141,7 +141,7 @@ public class Menu extends AppCompatActivity
         ListFragment listFragment = null;
         switch (menuItem.getItemId()){
             case R.id.nav_localizar:
-                opcaoSelecionada = R.id.nav_listareventos;
+                opcaoSelecionada = R.id.nav_localizar;
                 fragment = new MapaFragment();
                 break;
             case R.id.nav_listareventos:
