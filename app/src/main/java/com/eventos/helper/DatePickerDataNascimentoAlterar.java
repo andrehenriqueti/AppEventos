@@ -53,8 +53,6 @@ public class DatePickerDataNascimentoAlterar extends DialogFragment implements D
         SessionManager sessionManager = new SessionManager(getActivity().getBaseContext());
         Button buttonDataNascimento = (Button) getActivity().findViewById(R.id.data_nascimento_usuario_alterar);
         String dataNoBotao = dayOfMonth+"/"+(month+1)+"/"+year;
-        //só executar quando estiver tudo certo
-        //sessionManager.setDataNascimento(dataNoBotao);
         buttonDataNascimento.setText(dataNoBotao);
     }
 }
