@@ -15,8 +15,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             tools:ignore="UselessParent">
@@ -26,57 +24,32 @@
                 android:layout_height="wrap_content"
                 android:stretchColumns="0,1">
                 <TableRow>
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:stretchColumns="0,1"
-                        android:background="@drawable/celula">
-
-                        <TableRow >
-                            <TextView
-                                android:id="@+id/mes_inicio_evento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:layout_gravity="center"
-                                android:textSize="18sp" />
-                        </TableRow>
-                        <TableRow>
-                            <TextView
-                                android:id="@+id/dia_inicio_evento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:layout_gravity="center"
-                                android:textSize="15sp" />
-                        </TableRow>
-
-                    </TableLayout>
                     <RelativeLayout>
                         <TextView
                             android:id="@+id/exibi_nome_evento"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="306dp"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginBottom="10dp"
+                            android:textColor="@color/red"
                             android:textSize="20sp"/>
                         <TextView
                             android:layout_below="@id/exibi_nome_evento"
                             android:id="@+id/horario"
                             android:layout_marginLeft="5dp"
                             android:layout_marginStart="5dp"
-                            android:textSize="12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textColor="#0019fc"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
                     </RelativeLayout>
                 </TableRow>
             </TableLayout>
             <TextView
                 android:id="@+id/descricao"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                />

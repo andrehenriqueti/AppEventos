@@ -72,6 +72,8 @@ public class AlterarEventoActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         progressDialog = new ProgressDialog(this);
         eventoBean = (EventoBean) getIntent().getSerializableExtra("evento");
+        latitude = eventoBean.getLatitude();
+        longitude = eventoBean.getLongitude();
         cidade = eventoBean.getCidade();
         editTextNome = (EditText) findViewById(R.id.nome_evento_cadastro);
         editTextNome.setText(eventoBean.getNome());

@@ -4,7 +4,9 @@ package com.eventos.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -81,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),RecuperarContaSenhaActivity.class));
             }
         });
+        setupToolbar();
 
     }
 
@@ -153,5 +156,18 @@ public class LoginActivity extends AppCompatActivity {
     private void hideDialog() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
+    }
+
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatActivity appCompatActivity = this;
+        appCompatActivity.setSupportActionBar(toolbar);
+        final ActionBar bar = appCompatActivity.getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setShowHideAnimationEnabled(true);
+            bar.setHomeAsUpIndicator(R.drawable.ic_logo_24dp);
+            bar.setTitle("");
+        }
     }
 }

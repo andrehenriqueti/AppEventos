@@ -215,6 +215,8 @@ public class ListaEventosFragment extends ListFragment {
                 (int)eventoSelecionado.get(DatabaseHelper.Evento.LOTACAO),
                 (float)eventoSelecionado.get(DatabaseHelper.Evento.VALOR_EVENTO));
         eventoBean.setCidade((String) eventoSelecionado.get(DatabaseHelper.Evento.CIDADE));
+        eventoBean.setLongitude((double) eventoSelecionado.get(DatabaseHelper.Evento.LONGITUDE));
+        eventoBean.setLatitude((double) eventoSelecionado.get(DatabaseHelper.Evento.LATITUDE));
         Intent atualizar = new Intent(getActivity().getBaseContext(),AlterarEventoActivity.class);
         atualizar.putExtra("evento",eventoBean);
         Log.i("evento",eventoBean.toString());

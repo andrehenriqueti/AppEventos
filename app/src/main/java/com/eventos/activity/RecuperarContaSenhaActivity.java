@@ -1,9 +1,12 @@
 package com.eventos.activity;
 
 import android.app.ProgressDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +58,7 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
                 }
             }
         });
+        setupToolbar();
     }
 
     public void recuperarContaSenha(final UsuarioBean usuarioBean){
@@ -115,5 +119,25 @@ public class RecuperarContaSenhaActivity extends AppCompatActivity {
     private void hideDialog() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
+    }
+
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatActivity appCompatActivity = this;
+        appCompatActivity.setSupportActionBar(toolbar);
+        final ActionBar bar = appCompatActivity.getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setShowHideAnimationEnabled(true);
+            bar.setTitle("Recuperar Conta");
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

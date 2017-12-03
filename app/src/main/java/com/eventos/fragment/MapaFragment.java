@@ -92,7 +92,11 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback,GoogleM
                     String cidadeUsuario = buscaCidadeUsuario(latLng);
                     UsuarioBean usuarioBean = new UsuarioBean();
                     usuarioBean.setCidade(cidadeUsuario);
+                    clusterManager = new ClusterManager<>(getActivity(),mMap);
                     recebeEventos(usuarioBean);
+                    mMap.setOnCameraIdleListener(clusterManager);
+                    mMap.setOnMarkerClickListener(clusterManager);
+                    clusterManager.setAnimation(false);
                 }
                 else{
                     localizacaoUsuario.showSettingsAlert();
@@ -130,6 +134,16 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback,GoogleM
 
     @Override
     public View getInfoWindow(Marker marker) {
+        if(!marker.getId().equals(idMarkerUsuario)) {
+            View viewMarker = View.inflate(getActivity(), R.layout.info_windows, null);
+            TextView nome = (TextView) viewMarker.findViewById(R.id.exibi_nome_evento);
+            TextView horario = (TextView) viewMarker.findViewById(R.id.horario);
+            TextView descricao = (TextView) viewMarker.findViewById(R.id.descricao);
+            nome.setText(marker.getTitle());
+            horario.setText(marker.getSnippet().substring(0, marker.getSnippet().indexOf('D')));
+            descricao.setText(marker.getSnippet().substring(marker.getSnippet().indexOf('D'), marker.getSnippet().length()));
+            return viewMarker;
+        }
         return null;
     }
 
@@ -152,21 +166,6 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback,GoogleM
 
     @Override
     public View getInfoContents(Marker marker) {
-        if(!marker.getId().equals(idMarkerUsuario)) {
-            View viewMarker = View.inflate(getActivity(), R.layout.info_windows, null);
-            TextView dia = (TextView) viewMarker.findViewById(R.id.dia_inicio_evento);
-            TextView mes = (TextView) viewMarker.findViewById(R.id.mes_inicio_evento);
-            TextView nome = (TextView) viewMarker.findViewById(R.id.exibi_nome_evento);
-            TextView horario = (TextView) viewMarker.findViewById(R.id.horario);
-            TextView descricao = (TextView) viewMarker.findViewById(R.id.descricao);
-            dia.setText(marker.getSnippet().substring(0, 2));
-            String[] mesAbreviado = {"JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
-            mes.setText(mesAbreviado[(Integer.parseInt(marker.getSnippet().substring(3, 5))) - 1]);
-            nome.setText(marker.getTitle());
-            horario.setText(marker.getSnippet().substring(0, marker.getSnippet().lastIndexOf('D')));
-            descricao.setText(marker.getSnippet().substring(marker.getSnippet().lastIndexOf('D'), marker.getSnippet().length() - 1));
-            return viewMarker;
-        }
         return null;
     }
 
@@ -241,7 +240,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback,GoogleM
     }
 
     private void inseriEventosMapa(List<Map<String,Object>> evento){
-        clusterManager = new ClusterManager<>(getActivity(),mMap);
+
         for (int i=0;i<evento.size();i++){
             Map<String,Object> item = evento.get(i);
             String dataInicio = (String)item.get(DatabaseHelper.Evento.DATA_INICIAL);
@@ -249,22 +248,25 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback,GoogleM
             String horario = "";
             if(dataFim.substring(0,10).equals(dataInicio.substring(0,10))){
                 horario = dataInicio.substring(8,10)+"/"+dataInicio.substring(5,7)+"/"+
-                        dataInicio.substring(0,4)+"\n"+"Das "+dataInicio.substring(11,16)+" as "+
-                        dataFim.substring(11,16)+"\n";
+                        dataInicio.substring(0,4)+"\n"+"Horário: das "+dataInicio.substring(11,16)+"h as "+
+                        dataFim.substring(11,16)+"h\n";
             }
             else{
                 horario = dataInicio.substring(8,10)+"/"+dataInicio.substring(5,7)+"/"+
                         dataInicio.substring(0,4)+"-"+dataFim.substring(8,10)+"/"+
-                        dataFim.substring(5,7)+"/"+ dataFim.substring(0,4)+"\n"+"Das "+dataInicio.substring(11,16)+" as "+
-                        dataFim.substring(11,16)+"\n";
+                        dataFim.substring(5,7)+"/"+ dataFim.substring(0,4)+"\n"+"Horário: das "+dataInicio.substring(11,16)+"h as "+
+                        dataFim.substring(11,16)+"h\n";
             }
             String descricao = "Descrição: \n"+item.get(DatabaseHelper.Evento.DESCRICAO)+"\n"+
-                    ((int)item.get(DatabaseHelper.Evento.LOTACAO) == 0?"Não há lotação estabelecida":("Lotação de "+(int)item.get(DatabaseHelper.Evento.LOTACAO))+" pessoas\n")+
-                    ((double)item.get(DatabaseHelper.Evento.VALOR_EVENTO) == 0.0?"":"Há um preço estabelecido de R$ "+(double)item.get(DatabaseHelper.Evento.VALOR_EVENTO));
+                    ((int)item.get(DatabaseHelper.Evento.LOTACAO) == 0?"Não há lotação estabelecida \n":("Lotação de "+(int)item.get(DatabaseHelper.Evento.LOTACAO))+" pessoas\n")+
+                    ((double)item.get(DatabaseHelper.Evento.VALOR_EVENTO) == 0.0?"Evento Gratuito":"Há um preço estabelecido de R$ "+(double)item.get(DatabaseHelper.Evento.VALOR_EVENTO));
             String snippet = horario+descricao;
             mMap.addMarker(new MarkerOptions().position(new LatLng((double)item.get(DatabaseHelper.Evento.LATITUDE),
                     (double)item.get(DatabaseHelper.Evento.LONGITUDE))).title((String) item.get(DatabaseHelper.Evento.NOME)).snippet(snippet));
 
+            Itens itens = new Itens((double)item.get(DatabaseHelper.Evento.LATITUDE),
+                    (double)item.get(DatabaseHelper.Evento.LONGITUDE));
+            clusterManager.addItem(itens);
         }
     }
 }
