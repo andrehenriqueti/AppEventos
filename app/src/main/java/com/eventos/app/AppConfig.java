@@ -44,6 +44,6 @@ public class AppConfig {
     public static String URL_EXIBE_EVENTOS = "https://andrehenriquetatu.000webhostapp.com/GEO/exibe_eventos_usuario.php";
 
     // exibe eventos cidade url
-    public static String URL_EXIBE_EVENTOS_CIDADE = "https://andrehenriquetatu.000webhostapp.com/exibe_eventos_cidade.php";
+    public static String URL_EXIBE_EVENTOS_CIDADE = "https://andrehenriquetatu.000webhostapp.com/GEO/exibe_eventos_cidade.php";
 
 }

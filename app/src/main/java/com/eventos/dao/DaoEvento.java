@@ -84,7 +84,6 @@ public class DaoEvento {
         String pesquisa = "SELECT * FROM "+DatabaseHelper.Evento.TABELA+" WHERE "+DatabaseHelper.Evento.STATUS+" = '"+status+"' AND "+
                 DatabaseHelper.Evento.EMAIL+" = '"+sessionManager.getEmailLogado()+"'";
         Cursor cursor = db.rawQuery(pesquisa,null);
-        //Log.i("sql",pesquisa.toString());
         cursor.moveToFirst();
         eventos = new ArrayList<>();
         for(int i=0;i<cursor.getCount();i++){

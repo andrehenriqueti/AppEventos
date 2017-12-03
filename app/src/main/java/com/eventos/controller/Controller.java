@@ -73,7 +73,33 @@ public class Controller {
             daoEvento.inserirEventos(eventoBeanList);
         }
         catch (Exception e){
-            Log.e("conversao",e.getMessage());
+            Log.e("conversão",e.getMessage());
         }
+    }
+
+    public List<Map<String,Object>> criaListaEventos(JSONArray eventos){
+        List<Map<String,Object>> eventoBeanList = new ArrayList<>();
+        try {
+            for(int i=0;i<eventos.length();i++){
+                Map<String, Object> item = new HashMap<>();
+                JSONObject jsonObjectEvento = eventos.getJSONObject(i);
+                item.put(DatabaseHelper.Evento._ID,jsonObjectEvento.getInt("id"));
+                item.put(DatabaseHelper.Evento.NOME,jsonObjectEvento.getString("nome"));
+                item.put(DatabaseHelper.Evento.DESCRICAO,jsonObjectEvento.getString("descricao"));
+                item.put(DatabaseHelper.Evento.ENDERECO,jsonObjectEvento.getString("endereco"));
+                item.put(DatabaseHelper.Evento.STATUS,jsonObjectEvento.getString("status"));
+                item.put(DatabaseHelper.Evento.LATITUDE,jsonObjectEvento.getDouble("latitude"));
+                item.put(DatabaseHelper.Evento.LONGITUDE,jsonObjectEvento.getDouble("longitude"));
+                item.put(DatabaseHelper.Evento.LOTACAO,jsonObjectEvento.getInt("lotacao"));
+                item.put(DatabaseHelper.Evento.DATA_INICIAL,jsonObjectEvento.getString("data_hora_ini"));
+                item.put(DatabaseHelper.Evento.DATA_FINAL,jsonObjectEvento.getString("data_hora_fim"));
+                item.put(DatabaseHelper.Evento.VALOR_EVENTO,jsonObjectEvento.getDouble("valor_evento"));
+                eventoBeanList.add(item);
+            }
+        }
+        catch (Exception e){
+            Log.e("conversão",e.getMessage());
+        }
+        return eventoBeanList;
     }
 }

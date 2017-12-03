@@ -72,6 +72,7 @@ public class AlterarEventoActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         progressDialog = new ProgressDialog(this);
         eventoBean = (EventoBean) getIntent().getSerializableExtra("evento");
+        cidade = eventoBean.getCidade();
         editTextNome = (EditText) findViewById(R.id.nome_evento_cadastro);
         editTextNome.setText(eventoBean.getNome());
         editTextDescricao = (EditText) findViewById(R.id.descricao_evento_cadastro);
@@ -184,12 +185,7 @@ public class AlterarEventoActivity extends AppCompatActivity {
             EventoBean eventoAtualizado = new EventoBean(nomeEvento, dataHoraIni,dataHoraFinal,
                     descricao,endereco,Integer.parseInt(lotacao),longitude,latitude,sessionManager.getEmailLogado(),Float.parseFloat(valor));
             eventoAtualizado.setId(eventoBean.getId());
-            if(cidade == null){
-                eventoAtualizado.setCidade(eventoBean.getCidade());
-            }
-            else {
-                eventoAtualizado.setCidade(cidade);
-            }
+            eventoAtualizado.setCidade(cidade);
             alterarEvento(eventoAtualizado);
         }
     }
@@ -455,7 +451,7 @@ public class AlterarEventoActivity extends AppCompatActivity {
                 parametros.put("latitude",eventoBean.getLatitude()+"");
                 parametros.put("longitude",eventoBean.getLongitude()+"");
                 parametros.put("valor",eventoBean.getValor()+"");
-                parametros.put("cidade","Osasco");
+                parametros.put("cidade",eventoBean.getCidade());
                 return parametros;
             }
         };
